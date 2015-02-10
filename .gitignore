@@ -60,6 +60,7 @@ target/
 *.aux
 *.pdf
 *.fls
+*.pyg
 
 # R
 *.Rhistory
