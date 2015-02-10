@@ -10,4 +10,4 @@ y = bsxfun(@plus,mu,L * z);
 
 scatter(z(1,:),z(2,:))
 figure()
-scatter(y(1,:),y(2,:))matlab.mat
+scatter(y(1,:),y(2,:))
