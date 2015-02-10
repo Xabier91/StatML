@@ -40,6 +40,25 @@ Giving us the full equation:
     f(x) = \frac{1}{\sigma \sqrt{2\pi}} * exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
 \end{equation}
 
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{part1/I211.png}
+        \caption{$(\mu, \sigma) = (-1,1)$}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{part1/I212.png}
+        \caption{$(\mu, \sigma) = (0,2)$}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{part1/I213.png}
+        \caption{$(\mu, \sigma) = (2,3)$}
+    \end{subfigure}
+    \caption{Gaussian distribution with varying parameters}
+    \label{fig:I1.1}
+\end{figure}
+
 \subsubsection{Code}
 Using matlab we implemented (2) in the following code, giving us the figures \ref{fig:I1.1}
 
@@ -54,39 +73,21 @@ fplot(gaussjohn( 0,2), [-10,10])
 fplot(gaussjohn( 2,3), [-10,10])
 \end{minted}
 
-\begin{figure}[h!]
-    \centering
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{part1/I211.png}
-        \caption{$(\mu, \sigma) = (-1,1)$}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{part1/I212.png}
-        \caption{$(\mu, \sigma) = (0,2)$}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{part1/I213.png}
-        \caption{$(\mu, \sigma) = (2,3)$}
-    \end{subfigure}
-    \caption{Gaussian distribution with varying parameters}
-    \label{fig:I1.1}
-\end{figure}
-
 \subsection{I2.2}
 
 We created two sets of normal distribution $\mathscr{N}(0,1)$, and extrancted a sample with the distribution of $\mathscr{N}(y \| \mu, \sum)$ 
 with mean:
 
 \begin{equation}\label{eq:2.2mean}
-    \mu &= (1,2)^T
+    \mu = (1,2)^T
 \end{equation} 
 and covariance:
 
 \begin{equation}\label{eq:2.2co}
-    \sum &= \left( \begin{array}{cc} 0.3 & 0.2 \\ 0.2 & 0.2 \end{array} \right)
+    \sum = \left( \begin{array}{cc} 0.3 & 0.2 \\ 0.2 & 0.2 \end{array} \right)
 \end{equation}
 using the code seen below. This gave us the plots seen on Figure \ref{fig:I2.2}
-\begin{figure}[h!]
+\begin{figure}[!ht]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[width=\textwidth]{part1/I221.png}
@@ -106,7 +107,10 @@ using the code seen below. This gave us the plots seen on Figure \ref{fig:I2.2}
 \subsection{I2.3}
 
 
-\begin{figure}[h!]
+We calculated the mean of the dataset and plotted it ontop of the sampled
+data together with the "actual" mean (1,2).
+
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{part1/I231.png}
     \caption{The dataset with the sample mean plotted as a blue '+' and
@@ -114,11 +118,16 @@ using the code seen below. This gave us the plots seen on Figure \ref{fig:I2.2}
     \label{fig:I3.1}
 \end{figure}
 
-We calculated the mean of the dataset and plotted it ontop of the sampled
-data together with the "actual" mean (1,2).
-
 \subsubsection{Code}
 
 \inputminted{matlab}{part1/i23john.m}
+
+\subsection{I2.4}
+
+
+
+\subsubsection{Code}
+
+\inputminted{matlab}{part1/i24john.m}
 
 \end{document}
