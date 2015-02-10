@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{mathrsfs}
 
 %Section style
 \usepackage{etoolbox} %for configuration of sloppy
@@ -38,6 +39,8 @@ Giving us the full equation:
 \begin{equation}
     f(x) = \frac{1}{\sigma \sqrt{2\pi}} * exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
 \end{equation}
+
+\subsubsection{Code}
 Using matlab we implemented (2) in the following code, giving us the figures \ref{fig:I1.1}
 
 \begin{minted}{matlab}
@@ -70,5 +73,48 @@ fplot(gaussjohn( 2,3), [-10,10])
 \end{figure}
 
 \subsection{I2.2}
+
+We created two sets of normal distribution $\mathscr{N}(0,1)$, and extrancted a sample with the distribution of $\mathscr{N}(y \| \mu, \sum)$ 
+with mean:
+
+\begin{equation}\label{eq:2.2mean}
+    \mu &= (1,2)^T
+\end{equation} 
+and covariance:
+
+\begin{equation}\label{eq:2.2co}
+    \sum &= \left( \begin{array}{cc} 0.3 & 0.2 \\ 0.2 & 0.2 \end{array} \right)
+\end{equation}
+using the code seen below. This gave us the plots seen on Figure \ref{fig:I2.2}
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{part1/I221.png}
+        \caption{$\mathscr{N}(0,1)$ distribution}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{part1/I222.png}
+        \caption{Sample distribution with (\ref{eq:2.2mean}) and (\ref{eq:2.2co})}
+    \end{subfigure}
+    \caption{Gaussian distribution with varying parameters}
+    \label{fig:I2.2}
+\end{figure}
+\subsubsection{Code}
+
+\inputminted{matlab}{part1/i22john.m}
+
+\subsection{I2.3}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{part1/I231.png}
+    \caption{}
+    \label{fig:I3.1}
+\end{figure}
+
+\subsubsection{Code}
+
+\inputminted{matlab}{part1/i23john.m}
 
 \end{document}

@@ -56,7 +56,14 @@ docs/_build/
 # PyBuilder
 target/
 
+# Latex
 *.aux
 *.pdf
 *.fls
+
+# R
 *.Rhistory
+
+# Vim
+*.swp
+*.swo
