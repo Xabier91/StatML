@@ -20,7 +20,9 @@
 
 \begin{document}
 
-\section{I.2.1}
+\section{I.2}
+
+\subsection{I.2.1}
 
 We are using the guassian function:
 \begin{equation}
@@ -39,31 +41,34 @@ Giving us the full equation:
 Using matlab we implemented (2) in the following code, giving us the figures \ref{fig:I1.1}
 
 \begin{minted}{matlab}
-    function
-    end
+function [ f ] = gaussjohn( mu, sigma )
+    a = 1 / (sigma * sqrt(2 * pi));
+    f = @(x) a * exp(-((x - mu)^2) / (2 * sigma^2));
+end
+
+fplot(gaussjohn(-1,1), [-10,10])
+fplot(gaussjohn( 0,2), [-10,10])
+fplot(gaussjohn( 2,3), [-10,10])
 \end{minted}
 
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{I211.png}
+        \includegraphics[width=\textwidth]{part1/I211.png}
         \caption{$(\mu, \sigma) = (-1,1)$}
     \end{subfigure}%
     \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{I212.png}
+        \includegraphics[width=\textwidth]{part1/I212.png}
         \caption{$(\mu, \sigma) = (0,2)$}
     \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-    %(or a blank line to force the subfigure onto a new line)
     \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{I213.png}
+        \includegraphics[width=\textwidth]{part1/I213.png}
         \caption{$(\mu, \sigma) = (2,3)$}
     \end{subfigure}
     \caption{Gaussian distribution with varying parameters}
     \label{fig:I1.1}
 \end{figure}
 
-
-
+\subsection{I2.2}
 
 \end{document}
