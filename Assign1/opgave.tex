@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{mathrsfs}
 
 %Section style
 \usepackage{etoolbox} %for configuration of sloppy
@@ -70,5 +71,22 @@ fplot(gaussjohn( 2,3), [-10,10])
 \end{figure}
 
 \subsection{I2.2}
+
+We created two sets of normal distribution $\mathscr{N}(0,1)$, and extrancted a sample with the distribution of $\mathscr{N}(y \| \mu, \sum)$ 
+with mean:
+
+\begin{equation}
+    \mu &= (1,2)^T
+\end{equation}
+
+and covariance:
+
+\begin{equation*}
+    \sum &= \left( \begin{array}{cc} 0.3 & 0.2 \\ 0.2 & 0.2 \end{array} \right)
+\end{equation*}
+
+\subsubsection{Code}
+
+\inputminted{matlab}{part1/i22john.m}
 
 \end{document}
