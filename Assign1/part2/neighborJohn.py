@@ -202,7 +202,7 @@ if __name__ == '__main__':
         bestRatio = 0
         for i in range(1,k+1):
             (curRatio, curK) = printTest(runTest(i, trainingCollection, testCollection), i)
-            if(bestRatio < curRatio):
+            if(bestRatio <= curRatio):
                 bestRatio = curRatio
                 bestK = curK
         print "The best ratio was: " + str(bestRatio) + " with a k value of " + str(bestK)
@@ -231,7 +231,7 @@ if __name__ == '__main__':
         bestRatio = 0
         for (i, ratio) in returns:
             (curRatio, curK) = printTest(ratio/numOfCuts, i/numOfCuts)
-            if(bestRatio < curRatio):
+            if(bestRatio <= curRatio):
                 bestRatio = curRatio
                 bestK = curK
         print "The best ratio was: " + str(bestRatio) + " with a k value of " + str(bestK)
