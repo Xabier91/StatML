@@ -53,7 +53,6 @@ quiver(1,2,v2(1,1),v2(2,1));
 hold off
 
 % I.2.4
-
 rm = rotationm(30);
 rcov30 = rm^-1 * ycov * rm;
 
@@ -67,10 +66,32 @@ y30 = bsxfun(@plus,mu,rcov30 * z);
 y60 = bsxfun(@plus,mu,rcov60 * z);
 y90 = bsxfun(@plus,mu,rcov90 * z);
 
+
 figure(4)
 clf;
 hold on
 
+rm = rotationm(40)
+rcovnew = rm^-1 * ycov * rm;
+ynew = bsxfun(@plus,mu,rcovnew * z);
+
 scatter(y30(1,:),y30(2,:),'yellow')
 scatter(y60(1,:),y60(2,:),'blue')
 scatter(y90(1,:),y90(2,:),'red')
+scatter(ynew(1,:),ynew(2,:),'green')
+
+figure(5)
+clf;
+rm = rotationm(40)
+rcovnew = rm^-1 * ycov * rm;
+ynew = bsxfun(@plus,mu,rcovnew * z);
+
+
+scatter(ynew(1,:),ynew(2,:),'blue')
+rm = rotationm(45)
+rcovnew = rm^-1 * ycov * rm;
+ynew = bsxfun(@plus,mu,rcovnew * z);
+
+
+scatter(ynew(1,:),ynew(2,:),'green')
+axis equal
