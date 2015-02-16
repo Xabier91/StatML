@@ -71,12 +71,7 @@ def printAndNormalize(trainingCollection, testCollection):
     (stdx, stdy) =  findStds(trainingCollection)
 
     meansAndStds = findMeans(trainingCollection)
-    # print "Normal validation"
-    # print "Mean before = (" + str(meanx) + ", " + str(meany) + ")" 
-    # print "Stdev  before = (" + str(stdx) + ", " + str(stdy) + ")" 
     normalize((meanx,meany), (stdx, stdy), trainingCollection)
-    # print "Mean after = " + str(roundTuple(findMean(trainingCollection)))
-    # print "Stdev  after = " + str(roundTuple(findStds(trainingCollection)))
 
     normalize((meanx,meany), (stdx, stdy), testCollection)
 
@@ -163,6 +158,7 @@ def printTest(ratio, k):
     else:
         color = bcolors.Yellow
     print("Hit ratio with " + str(k) + " was " + color + str(ratio) + "%." + bcolors.ENDC)
+    return (ratio, k)
 
 def collect(k, trainingCollection, testCollection):
     ret = []
@@ -203,12 +199,14 @@ if __name__ == '__main__':
     k = int(raw_input("Set max k\n"))
 
     if(not crossvalidate):
-
-        print "Crossvalidation"
+        bestRatio = 0
         for i in range(1,k+1):
-            printTest(runTest(i, trainingCollection, testCollection), i)
+            (curRatio, curK) = printTest(runTest(i, trainingCollection, testCollection), i)
+            if(bestRatio < curRatio):
+                bestRatio = curRatio
+                bestK = curK
+        print "The best ratio was: " + str(bestRatio) + " with a k value of " + str(bestK)
     else:
-        print "Crossvalidation"
         subTraining = splitList(len(trainingCollection)/numOfCuts, trainingCollection)
         res = []
         i = 0
@@ -230,5 +228,10 @@ if __name__ == '__main__':
                 returns[k-1] = tuple(map(operator.add, returns[k-1], (k,ratio)))
             j += 1
         print "\n\nAverage result: "
+        bestRatio = 0
         for (i, ratio) in returns:
-            printTest(ratio/numOfCuts, i/numOfCuts)
+            (curRatio, curK) = printTest(ratio/numOfCuts, i/numOfCuts)
+            if(bestRatio < curRatio):
+                bestRatio = curRatio
+                bestK = curK
+        print "The best ratio was: " + str(bestRatio) + " with a k value of " + str(bestK)
