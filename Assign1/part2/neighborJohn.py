@@ -136,7 +136,29 @@ def runTest(k, trainingCollection, testCollection):
             miss += 1
         tries += 1
     ratio = hits/tries * 100
-    return ratio
+    if ratio > 70:
+        color = bcolors.Green
+    elif ratio < 65:
+        color = bcolors.Red
+    else:
+        color = bcolors.Yellow
+    print("Hit ratio with " + str(k) + " was " + color + str(ratio) + "%." + bcolors.ENDC +
+            " With " + str(tries) + " tries " + str(hits) + " hits and " + str(miss) +
+          " misses")
+    return (ratio, k)
+
+def printTest(ratio, k, tries):
+    if ratio > 70:
+        color = bcolors.Green
+    elif ratio < 65:
+        color = bcolors.Red
+    else:
+        color = bcolors.Yellow
+    print("Hit ratio with " + str(k) + " was " + color + str(ratio) + "%." + bcolors.ENDC +
+            " With " + str(tries) + " tries " + str(ratio/100 * tries) + " hits and " + str(tries - ratio/100 * tries) +
+          " misses")
+    return (ratio, k)
+
 
 def findBest(collection):
     bestRatio = 0
@@ -150,20 +172,11 @@ def printCollection(collection):
     for (ratio,k) in collection: 
         printTest(ratio, k)
 
-def printTest(ratio, k):
-    if ratio > 70:
-        color = bcolors.Green
-    elif ratio < 65:
-        color = bcolors.Red
-    else:
-        color = bcolors.Yellow
-    print("Hit ratio with " + str(k) + " was " + color + str(ratio) + "%." + bcolors.ENDC)
-    return (ratio, k)
-
 def collect(k, trainingCollection, testCollection):
     ret = []
     for i in range(1,k+1): 
-       ret.append((i, runTest(i, trainingCollection, testCollection))) 
+       (ratio, k) = runTest(i, trainingCollection, testCollection)
+       ret.append((i, ratio))# runTest(i, trainingCollection, testCollection))) 
     return ret
 
 
@@ -201,7 +214,7 @@ if __name__ == '__main__':
     if(not crossvalidate):
         bestRatio = 0
         for i in range(1,k+1):
-            (curRatio, curK) = printTest(runTest(i, trainingCollection, testCollection), i)
+            (curRatio, curK) = runTest(i, trainingCollection, testCollection)
             if(bestRatio <= curRatio):
                 bestRatio = curRatio
                 bestK = curK
@@ -215,6 +228,7 @@ if __name__ == '__main__':
             for training in subTraining:
                 if training != subTraining[i]:
                     testCollection.extend(training)
+            print "\nTestCase: " + str(i) + ":" 
             res.append(collect(k, subTraining[i], testCollection))
             i += 1
         i = 1
@@ -222,15 +236,15 @@ if __name__ == '__main__':
         j = 1
         for test in res:
             time.sleep(0.1)
-            print "\nTestCase: " + str(j) + ":" 
             for (k, ratio) in test:
-                printTest(ratio, k)
+                # printTest(ratio, k)
                 returns[k-1] = tuple(map(operator.add, returns[k-1], (k,ratio)))
             j += 1
         print "\n\nAverage result: "
         bestRatio = 0
         for (i, ratio) in returns:
-            (curRatio, curK) = printTest(ratio/numOfCuts, i/numOfCuts)
+            (curRatio, curK) = printTest(ratio/numOfCuts, i/numOfCuts,
+                                         len(trainingCollection) - len(subTraining[0]))
             if(bestRatio <= curRatio):
                 bestRatio = curRatio
                 bestK = curK
