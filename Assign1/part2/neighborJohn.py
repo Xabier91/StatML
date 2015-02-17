@@ -225,11 +225,12 @@ if __name__ == '__main__':
         i = 0
         while(i < len(subTraining)):
             testCollection = []
-            for training in subTraining:
-                if training != subTraining[i]:
-                    testCollection.extend(training)
+            trainingCollection = []
+            for test in subTraining:
+                if test != subTraining[i]:
+                    trainingCollection.extend(test)
             print "\nTestCase: " + str(i) + ":" 
-            res.append(collect(k, subTraining[i], testCollection))
+            res.append(collect(k, trainingCollection, subTraining[i]))
             i += 1
         i = 1
         returns = [(0,0)] * (k)
@@ -237,14 +238,15 @@ if __name__ == '__main__':
         for test in res:
             time.sleep(0.1)
             for (k, ratio) in test:
-                # printTest(ratio, k)
                 returns[k-1] = tuple(map(operator.add, returns[k-1], (k,ratio)))
             j += 1
         print "\n\nAverage result: "
         bestRatio = 0
         for (i, ratio) in returns:
+            time.sleep(0.01)
             (curRatio, curK) = printTest(ratio/numOfCuts, i/numOfCuts,
-                                         len(trainingCollection) - len(subTraining[0]))
+                                         len(subTraining[0]))
+                                         # len(testCollection) - len(subTraining[0]))
             if(bestRatio <= curRatio):
                 bestRatio = curRatio
                 bestK = curK
