@@ -138,6 +138,7 @@ The code for all the following assignements can be found in the appendix.
 
 \subsection{I.3.1}
 I ran the code and got the following results from $k = \{1,3,5\}$\\
+\subsubsection*{Results}
 Hit ratio with 1 was {\color{green}81.5789473684\%}. With 38.0 tries 31.0 hits and 7.0 misses\\
 Hit ratio with 3 was {\color{yellow}68.4210526316\%}. With 38.0 tries 26.0 hits and 12.0 misses\\
 Hit ratio with 5 was {\color{yellow}60.5263157895\%}. With 38.0 tries 23.0 hits and 15.0 misses\\
@@ -145,11 +146,45 @@ Where k = 1 is clearly the best classifier.\\
 
 \subsection{I.3.2}
 The cross-validation was done by splitting the test collection up into 5 equal sizes, and running the code 5 times with one fifth
-of the full collection as the test data and the rest as the training.
-
-
+of the full collection as the test data and the rest as the training.\\\\
+The code was run as cross-validation with a k value of 25 and i did not normalize the data. I chose to include the even numbers,
+ as the code handles a draw by picking the lowest value, so i saw no reason to skip them.
+\subsubsection*{Results}
+Average result:\\ 
+Hit ratio with 1 was {\color{green}77.75\%}. With 80 tries 62.2 hits and 17.8 misses\\
+Hit ratio with 2 was {\color{green}73.5\%}. With 80 tries 58.8 hits and 21.2 misses\\
+Hit ratio with 3 was {\color{green}74.0\%}. With 80 tries 59.2 hits and 20.8 misses\\
+Hit ratio with 4 was {\color{green}72.5\%}. With 80 tries 58.0 hits and 22.0 misses\\
+Hit ratio with 5 was {\color{yellow}67.0\%}. With 80 tries 53.6 hits and 26.4 misses    \\
+Hit ratio with 6 was {\color{yellow}67.25\%}. With 80 tries 53.8 hits and 26.2 misses   \\
+Hit ratio with 7 was {\color{green}70.75\%}. With 80 tries 56.6 hits and 23.4 misses    \\
+Hit ratio with 8 was {\color{green}74.25\%}. With 80 tries 59.4 hits and 20.6 misses  \\  
+Hit ratio with 9 was {\color{red}56.75\%}. With 80 tries 45.4 hits and 34.6 misses  \\
+Hit ratio with 10 was {\color{red}56.0\%}. With 80 tries 44.8 hits and 35.2 misses  \\
+Hit ratio with 11 was {\color{yellow}62.5\%}. With 80 tries 50.0 hits and 30.0 misses   \\
+Hit ratio with 12 was {\color{red}54.25\%}. With 80 tries 43.4 hits and 36.6 misses     \\
+Hit ratio with 13 was {\color{red}51.0\%}. With 80 tries 40.8 hits and 39.2 misses    \\  
+Hit ratio with 14 was {\color{red}48.75\%}. With 80 tries 39.0 hits and 41.0 misses \\
+Hit ratio with 15 was {\color{red}48.0\%}. With 80 tries 38.4 hits and 41.6 misses  \\
+Hit ratio with 16 was {\color{red}43.0\%}. With 80 tries 34.4 hits and 45.6 misses  \\
+Hit ratio with 17 was {\color{red}38.75\%}. With 80 tries 31.0 hits and 49.0 misses \\
+Hit ratio with 18 was {\color{red}39.5\%}. With 80 tries 31.6 hits and 48.4 misses  \\
+Hit ratio with 19 was {\color{red}35.0\%}. With 80 tries 28.0 hits and 52.0 misses  \\
+Hit ratio with 20 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+Hit ratio with 21 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+Hit ratio with 22 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+Hit ratio with 23 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+Hit ratio with 24 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+Hit ratio with 25 was {\color{red}32.0\%}. With 80 tries 25.6 hits and 54.4 misses  \\
+The best ratio was: 77.75 with a k value of 1\\\\
+Without normalizing the data the best average k value between the 5 runs was the one with a k of 1, with 8 being secondbest.\\
+k = 1 had an average miss rate of 17.8.
 
 \subsection{I.3.3}
+
+
+\subsubsection*{Results}
+
 
 \newpage
 \begin{appendices}
