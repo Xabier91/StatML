@@ -46,8 +46,16 @@ renders normalization redundant.
 
 \subsection{II.1.3}
 
-Muh Bayes.
+To calculate the risk of the probalistic classifier you have to
+calculate the chance of the predicted result being incorrect. In this
+case with two possible outputs, it is simply frequency of '0' times the
+probability of '1' + frequency of '1' times the probability of '0'.\\
 
+\begin{align*}
+  &\mathcal{R}_s(h) = {h(0) \neq y_1} + {h(1) \neq y_1}\\
+  &\Downarrow\\
+  &\mathcal{R}_is(h) = 0.25 * 0.75 + 0.75 * 0.25 = 37.5 \%
+\end{align*}
 
 \subsection{II.2.1}
 

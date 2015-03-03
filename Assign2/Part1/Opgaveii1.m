@@ -61,18 +61,8 @@ for i = 1:length(IrisTest2014),
 end
 
 
-errorTrainPer = sum(errorsTrain) / length(IrisTrain2014);
-errorTestPer = sum(errorsTest) / length(IrisTest2014);
-
-
-
-figure(1)
-hold on
-scatter(test0(:,1),test0(:,2),'red');
-scatter(test1(:,1),test1(:,2),'green');
-scatter(test2(:,1),test2(:,2),'blue');
-
-
+errorTrainPer = sum(errorsTrain) / length(IrisTrain2014)
+errorTestPer = sum(errorsTest) / length(IrisTest2014)
 
 
 minTrain = min(IrisTrain2014(:,1:2));
@@ -148,13 +138,5 @@ for i = 1:length(TestN),
     end
 end
 
-errorTrainNPer = sum(errorsTrainN) / length(IrisTrain2014);
-errorTestNPer = sum(errorsTestN) / length(IrisTest2014);
-
-
-
-figure(2)
-hold on
-scatter(test0(:,1),test0(:,2),'red');
-scatter(test1(:,1),test1(:,2),'green');
-scatter(test2(:,1),test2(:,2),'blue');
+errorTrainNPer = sum(errorsTrainN) / length(IrisTrain2014)
+errorTestNPer = sum(errorsTestN) / length(IrisTest2014)
