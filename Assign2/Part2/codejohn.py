@@ -120,7 +120,7 @@ print "Selection 3 rms = " + str(rms3)
 plt.show()
 
 actual = ttrain
-designMatrix = np.matrix(patsy.dmatrix(train3))
+designMatrix = np.matrix(patsy.dmatrix(train2))
 plotVals = []
 
 bestmN = 0
@@ -133,7 +133,7 @@ for num in drange(1, 10.0, 0.2):
     SN = pow(alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T, -1)
     mN = SN * designMatrix * actual
 
-    predicted = maxLikelyhood(train3, mN)
+    predicted = maxLikelyhood(train2, mN)
     rms = math.sqrt(skm.mean_squared_error(actual, predicted))
     if(rms < bestrms):
         bestrms = rms
@@ -145,6 +145,6 @@ print "bestmN = " + str(bestmN)
 print "bestrms = " + str(bestrms)
 print "bestAlpha = " + str(bestAlpha)
 
-plt.plot(np.repeat(rms3, len(plotVals)), "b-", label = "Using MLS")
+plt.plot(np.repeat(rms2, len(plotVals)), "b-", label = "Using MLS")
 plt.plot(plotVals, "r-", label = "Using MAP")
 plt.show()
