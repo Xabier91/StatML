@@ -91,74 +91,50 @@ train3 = extract3(trainData).T
 ttrain = extractT(trainData)
 
 # Calculating
-# wML1 = np.array(np.linalg.pinv(np.matrix(findMeans(train1))) * np.mean(ttrain))
-# wML2 = np.array(np.linalg.pinv(np.matrix(findMeans(train2))) * np.mean(ttrain))
+wML1 = np.array(np.linalg.pinv(np.matrix(findMeans(train1))) * np.mean(ttrain))
+wML2 = np.array(np.linalg.pinv(np.matrix(findMeans(train2))) * np.mean(ttrain))
 wML3 = np.array(np.linalg.pinv(np.matrix(findMeans(train3))) * np.mean(ttrain))
 
 
 actual = ttest
 # Plotting
-# predicted = maxLikelyhood(test1, wML1)
-# plt.plot(actual, "ro", label = "data")
-# plt.plot(predicted, "b-", label = "fit")
-# rms = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print rms
-# plt.show()
+predicted = maxLikelyhood(test1, wML1)
+plt.plot(actual, "ro", label = "data")
+plt.plot(predicted, "b-", label = "fit")
+rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
+print "Selection 1 rms = " + str(rms1)
+plt.show()
 
-# predicted = maxLikelyhood(test2, wML2)
-# plt.plot(ttest, "ro", label = "data")
-# plt.plot(predicted, "b-", label = "fit")
-# rms = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print rms
-# plt.show()
+predicted = maxLikelyhood(test2, wML2)
+plt.plot(ttest, "ro", label = "data")
+plt.plot(predicted, "b-", label = "fit")
+rms2 = math.sqrt(skm.mean_squared_error(actual, predicted))
+print "Selection 2 rms = " + str(rms2)
+plt.show()
 
 predicted = maxLikelyhood(test3, wML3)
 plt.plot(ttest, "ro", label = "data")
 plt.plot(predicted, "b-", label = "fit")
-rmsb = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print rms
+rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
+print "Selection 3 rms = " + str(rms3)
 plt.show()
-
-plotVals = np.array([]) 
-alphas = np.array([]) 
-bestalpha = 0
-bestMN = 0
 
 actual = ttrain
 designMatrix = np.matrix(patsy.dmatrix(train3))
-m0 = 0
+plotVals = []
 
 for num in drange(1, 10.0, 0.2):
-# for alpha in drange(-640765.0, -640764.0,0.02):
     alpha = pow(10, num)
-    S0 = pow(alpha,-1) * np.identity(len(designMatrix))
+    # S0 = pow(alpha,-1) * np.identity(len(designMatrix))
 
-    # print len(designMatrix.T * designMatrix)
-    # print len(designMatrix)
     SN = pow(alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T, -1)
-    # print "SN has dimensions: (" + str(len(SN)) + ", " + str(len(SN[0])) + ")"
     mN = SN * designMatrix * actual
-    # print "mN has dimensions: (" + str(len(mN)) + ", " + str(len(mN[0])) + ")"
-    # print "for alpha = " + str(alpha) + " the range is " + str(mN)
-    # plotVals = np.append(plotVals, mN)
-    # if (mN > bestMN):
-        # bestalpha, bestMN = alpha, mN
-    # bestalpha = max(alpha 
-    # print mN
-    # print plotVals
-    # print mN
-    # print np.sum(mN)
+
     predicted = maxLikelyhood(train3, mN)
     rms = math.sqrt(skm.mean_squared_error(actual, predicted))
     plotVals = np.append(plotVals, rms)
-    # print rms
-    # plt.plot(ttrain, "ro", label = "data")
-    # plt.plot(predicted)
-    # plt.show()
 
 
-# print bestalpha, bestMN
-print plotVals
-plt.plot( np.repeat(rmsb, len(plotVals)), "b-")
+plt.plot(np.repeat(rms3, len(plotVals)), "b-")
 plt.plot(plotVals, "r-")
 plt.show()
