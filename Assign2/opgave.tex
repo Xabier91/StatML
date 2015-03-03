@@ -1,5 +1,6 @@
 \documentclass{article}
 
+\usepackage[margin=1.0in]{geometry}
 \usepackage{upgreek}
 \usepackage{amsmath}
 \usepackage{minted}
@@ -23,21 +24,37 @@
 
 \begin{document}
 
+\begin{titlepage}
+\begin{center}
+    \hline \\[0.2cm]
+\textsc{\Large Statistical methods for machine learning}\\[0.5cm]
+\textsc{\large Assignment 2}\\[0.5cm]
+    \hline
+    \hline
+\vspace{2 cm}
+\begin{tabular}{ll}
+Students: & Kasper Passov\\
+          & Lasse Madsen\\ 
+\end{tabular}
+\end{center}
+\vspace{5 cm}
+% \tableofcontents
+\newpage
+\end{titlepage}
+
 \section{II.1}
 
 \subsection{II.1.1}
 
 We implemented the LDA ourselves. The code can be seen in
-Part1/Opgavei11.m. 
-
+Part1/Opgavei11.m. \\
 On the training data we observe a 14.00 \% miss rate while on the test data
 the rate is 21.05 \%.
 
 \subsection{II.1.2}
 
 After normalizing the data we observed the same error as on the
-non-transformed data. 
-
+non-transformed data. \\
 This is unsurprising as normalization preserves the relation inbetween
 the elements of the dataset. Graphically a plot of the data set would
 look identical except for a change of the axises. Finally LDA uses the
@@ -45,31 +62,75 @@ covariance which fully describes the distribution of the data and thus
 renders normalization redundant.
 
 \subsection{II.1.3}
-
-Muh Bayes.
-
+\begin{equation}  
+   \label{eq:boc}
+   y = argmax_{c_{j}\in C} \sum_{h_i \in H} P(c_j | h_i) P(T | h_i) P(h_i)
+\end{equation}
+Our output can have the following 2 cases, based on the outputspace Y:\\
+\begin{equation*}
+f(S) = \left\{ \begin{array}{l l}
+    1 & \quad \mbox{if \{$s_i$\in $S: 1 \in s_i$\}}\\
+    0 & \quad \mbox{otherwise} \end{array} \right.
+\end{equation*}
+Using the Bayer optimal classifier (\ref{eq:boc}) we get the following:
+\begin{alignat*}{3}
+    P(h1|C) &=.25 \qquad &&P(0|h1) = 1 \qquad &&P(1|h1) = 0\\
+    P(h2|C) &=.25        &&P(0|h2) = 0        &&P(1|h2) = 1\\
+    P(h3|C) &=.25        &&P(0|h3) = 0        &&P(1|h3) = 1\\
+    P(h4|C) &=.25        &&P(0|h4) = 0        &&P(1|h4) = 1
+\end{alignat*}
+therefore,\\
+\begin{align*}
+    \sum_{h_i \in H}& P(1|h_i)P(h_i|C) = 0.75\\
+    \sum_{h_i \in H}& P(0|h_i)P(h_i|C) = 0.25
+\end{align*}
+and\\
+\begin{equation*}
+    argmax_{c_{j}\in {0,1}} \sum_{h_i \in H} P(c_j | h_i) P(h_i|D) = 1
+\end{equation*}
+To calculate the risk of the probalistic classifier you have to
+calculate the chance of the predicted result being incorrect. In this
+case with two possible outputs, it is simply frequency of '0' times the
+probability of '1' + frequency of '1' times the probability of '0'.\\
+\begin{align*}
+      &\mathcal{R}_s(h) = {h(0) \neq y_1} + {h(1) \neq y_1}\\
+      &\Downarrow\\
+      &\mathcal{R}_is(h) = 0.25 * 0.75 + 0.75 * 0.25 = 37.5 \%
+\end{align*}
 \newpage
+\section{II.2}
+All code for this section can be found in Part2/II2code.py, and should compile with the following packages installed:
+\begin{itemize}
+    \item matplotlib
+    \item numpy
+    \item scipy
+    \item time
+    \item math
+    \item sklearn
+    \item patsy
+\end{itemize}
+
 \subsection{II.2.1}
 
 We used the linear model
-\begin{equation}
+\begin{equation*}
     y(x, w) = w_0 + w_1 x_1 + ... + w_D x_D
-\end{equation}
+\end{equation*}
 and calculated the RMS using the python library sklearn. this gave us the fittings seen on 
 figure \ref{fig:II21}. It seams Selection 2 provides the best prediction, but giving the problem some though, we concluded it mearly copies
 the previous years sunspot numbers. So even if it does have the lowest RMS, it is not guarantede to be the best model.
 
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II211.png}
         \caption{fitting with $RMS = 64.4180$}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II212.png}
         \caption{fitting with $RMS = 30.1460$}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II213.png}
         \caption{fitting with $RMS = 49.8736$}
     \end{subfigure}
