@@ -194,15 +194,15 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 \subsection{II.2.3}
 
 \begin{equation*}
-    E_{D}(w) = \frac{1}{2} \sum_{n=1}^{N} r_n(t_n - w^T\Phi(x_n))^2
+    E_{D}(w) = \frac{1}{2} \sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2
 \end{equation*}
 
 \begin{equation*}
-    \frac{\delta}{\delta w_i} \frac{1}{2}\sum_{n=1}^{N} r_n(t_n - w^T\Phi(x_n))^2 dx
+    \frac{\delta}{\delta w_i} \frac{1}{2}\sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2 dx
 \end{equation*}
 
 \begin{equation*}
-    \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w_i} (t_n - w^T\Phi(x_n))^2 dx
+    \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n))^2 dx
 \end{equation*}
 
 \begin{equation}
@@ -210,13 +210,67 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 \end{equation}
 
 \begin{equation*}
-    \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\Phi(x_n)) \cdot \frac{\delta}{\delta w_i} (t_n - w^T\Phi(x_n) dx
+    \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\phi(x_n)) \cdot \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n) dx
 \end{equation*}
 
 \begin{equation*}
-    \sum_{n=1}^{N} r_n (t_n - w^T\Phi(x_n)) \cdot 0 - 1 \cdot \Phi(x_n)
+    \sum_{n=1}^{N} r_n (t_n - w^T\phi(x_n)) \cdot 0 - 1 \cdot \phi(x_n)
 \end{equation*}
 
+\begin{equation*}
+    \sum_{n=1}^{N} r_n (t_n - w^T\phi(x_n)) \cdot \phi(x_n)
+\end{equation*}
 
+\begin{equation*}
+    \sum_{n=1}^{N} (r_n t_n - r_n w^T\phi(x_n)) \cdot \phi(x_n)
+\end{equation*}
+
+\begin{equation*}
+    \sum_{n=1}^{N} r_n t_n \phi(x_n) - r_n w^T\phi(x_n) \cdot \phi(x_n)
+\end{equation*}
+
+\begin{equation*}
+    \sum_{n=1}^{N} r_n t_n \phi(x_n) - \sum_{n=1}^{N} r_n w^T\phi(x_n) \cdot \phi(x_n)
+\end{equation*}
+
+\begin{equation*}
+    \begin{array}{r c c c c}
+    &   r_1 & 0   & .. & 0   \\
+    &   0   & r_2 & .. & 0   \\
+  R =   &  ...  & ... & .. & ...   \\
+    &   0   & 0   & .. & 0   \\
+    &   0   & 0   & .. & r_N 
+    \end{array}
+\end{equation*}
+
+\begin{equation*}
+    w^T R \sum_{n=1}^{N} \phi(x_n)^2 - R \sum_{n=1}^{N} t_n \phi(x_n) 
+\end{equation*}
+
+\begin{equation*}
+    \begin{array}{r c c c c}
+           &   r_1 & 0   & .. & 0   \\
+           &   0   & r_2 & .. & 0   \\
+  \Phi =   &  ...  & ... & .. & ...   \\
+           &   0   & 0   & .. & 0   \\
+           &   0   & 0   & .. & r_N 
+    \end{array}
+\end{equation*}
+
+\begin{equation*}
+    0 = w^T R \Phi^2 - R \bar{t} \Phi 
+\end{equation*}
+
+\begin{equation*}
+    w^T R \Phi^2 = R \bar{t} \Phi 
+\end{equation*}
+
+\begin{equation*}
+    w^T = \frac{R \bar{t} \Phi}{R \Phi^2}
+\end{equation*}
+
+\begin{equation*}
+    w^T = \frac{\bar{t}}{\Phi}
+\end{equation*}
 
 \end{document}
