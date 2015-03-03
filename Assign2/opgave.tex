@@ -55,7 +55,7 @@ the rate is 21.05 \%.
 
 After normalizing the data we observed the same error as on the
 non-transformed data. \\
-This is unsurprising as normalization preserves the relation inbetween
+This is unsurprising as normalization preserves the relation in between
 the elements of the dataset. Graphically a plot of the data set would
 look identical except for a change of the axises. Finally LDA uses the
 covariance which fully describes the distribution of the data and thus
@@ -117,8 +117,8 @@ We used the linear model
     y(x, w) = w_0 + w_1 x_1 + ... + w_D x_D
 \end{equation*}
 and calculated the RMS using the python library sklearn. this gave us the fittings seen on 
-figure \ref{fig:II21}. It seams Selection 2 provides the best prediction, but giving the problem some though, we concluded it mearly copies
-the previous years sunspot numbers. So even if it does have the lowest RMS, it is not guarantede to be the best model.
+figure \ref{fig:II21}. It seams Selection 2 provides the best prediction, but giving the problem some though, we concluded it nearly copies
+the previous years sunspot numbers. So even if it does have the lowest RMS, it is not guaranteed to be the best model.
 
 \begin{figure}[!ht]
     \centering
@@ -143,12 +143,12 @@ the previous years sunspot numbers. So even if it does have the lowest RMS, it i
 
 On figure \ref{fig:II22} the plots of our MAP estimations are shown in relation
 to our ML solutions. In each picture, the blue line is the estimation of
-our Maximum likelihood solution and the read our MAP estimations given 
+our Maximum likelihood solution and the red our MAP estimations given 
 different alpha values, plottet on the x-axis.\\
 According to our calculations, all the Selections has the best alpha values
 when $\alpha \rightarrow 0$, with the Selection 1 ML solution never crossing 
 our MAP solution. In Selection 2 and 3, the MAP values solutions is worse then the
-ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
+ML solutions at respectively $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 
 % We used the following to calculate our maximum posterior weight vector.\\
 % \begin{align*}
@@ -193,21 +193,22 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 
 \subsection{II.2.3}
 
+We attempt to solve for $w$.
+
 \begin{equation*}
     E_{D}(w) = \frac{1}{2} \sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2
 \end{equation*}
+First we differentiate the equation.
 
 \begin{equation*}
     \frac{\delta}{\delta w_i} \frac{1}{2}\sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2 dx
 \end{equation*}
+We move the constants and the summation outside the derivative.
 
 \begin{equation*}
     \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n))^2 dx
 \end{equation*}
-
-\begin{equation}
-    \frac{\delta}{\delta x} f(g(x)) dx = f'(g(x)) \cdot g'(x)
-\end{equation}
+We use the chain rule and solve the two parts individually.
 
 \begin{equation*}
     \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\phi(x_n)) \cdot \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n) dx
@@ -216,10 +217,13 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 \begin{equation*}
     \sum_{n=1}^{N} r_n (t_n - w^T\phi(x_n)) \cdot 0 - 1 \cdot \phi(x_n)
 \end{equation*}
+As we want to find the stationary point we set the other side of the
+equation to 0.
 
 \begin{equation*}
-    \sum_{n=1}^{N} r_n (t_n - w^T\phi(x_n)) \cdot \phi(x_n)
+    \sum_{n=1}^{N} r_n (t_n - w^T\phi(x_n)) \cdot \phi(x_n) = 0
 \end{equation*}
+We multiply into the parenthesis.
 
 \begin{equation*}
     \sum_{n=1}^{N} (r_n t_n - r_n w^T\phi(x_n)) \cdot \phi(x_n)
@@ -228,10 +232,13 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 \begin{equation*}
     \sum_{n=1}^{N} r_n t_n \phi(x_n) - r_n w^T\phi(x_n) \cdot \phi(x_n)
 \end{equation*}
+Then we split the sum into two parts. 
 
 \begin{equation*}
     \sum_{n=1}^{N} r_n t_n \phi(x_n) - \sum_{n=1}^{N} r_n w^T\phi(x_n) \cdot \phi(x_n)
 \end{equation*}
+We introduce $R$ and set it as the matrix seen below. This allows us to
+change $r_n$ to $R$ and move it outside the summation.
 
 \begin{equation*}
     \begin{array}{r c c c c}
@@ -242,10 +249,13 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
     &   0   & 0   & .. & r_N 
     \end{array}
 \end{equation*}
+We move $w$ and $R$ outside the two summations.
 
 \begin{equation*}
     w^T R \sum_{n=1}^{N} \phi(x_n)^2 - R \sum_{n=1}^{N} t_n \phi(x_n) 
 \end{equation*}
+Seeing as $\phi(x_n)$ is basically a row of a designmatrix, we can view it
+as a design matrix $\Phi$ outside the summation.
 
 \begin{equation*}
     \begin{array}{r c c c c}
@@ -256,10 +266,13 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
            &   0   & 0   & .. & r_N 
     \end{array}
 \end{equation*}
+$t_n$ is a vector outside the summation and can be freely moved as well
+and the summations are done away with. 
 
 \begin{equation*}
     0 = w^T R \Phi^2 - R \bar{t} \Phi 
 \end{equation*}
+Now all that remains is to isolate $w$.
 
 \begin{equation*}
     w^T R \Phi^2 = R \bar{t} \Phi 
@@ -272,5 +285,6 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 \begin{equation*}
     w^T = \frac{\bar{t}}{\Phi}
 \end{equation*}
+Which clearly isn't the intended result. Any hints?
 
 \end{document}
