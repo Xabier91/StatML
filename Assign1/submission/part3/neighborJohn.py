@@ -200,8 +200,8 @@ if __name__ == '__main__':
     trainerData = parse(trainingSet)
     trainingCollection = createCollection(trainerData)
     # trainingSet = 'IrisTest2014.dt'
-    # testSet     = 'IrisTrain2014.dt'
-    testSet     = 'IrisTest2014.dt'
+    testSet     = 'IrisTrain2014.dt'
+    # testSet     = 'IrisTest2014.dt'
     testData = parse(testSet)
     testCollection = createCollection(testData)
 
