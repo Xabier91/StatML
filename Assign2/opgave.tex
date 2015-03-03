@@ -33,8 +33,8 @@
     \hline
 \vspace{2 cm}
 \begin{tabular}{ll}
-Students: & Kasper Passov\\
-          & Lasse Madsen\\ 
+Students: & Lasse Ahlbech Madsen \\
+          & Kasper Passov\\
 \end{tabular}
 \end{center}
 \vspace{5 cm}
@@ -192,7 +192,7 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 % bestAlpha = 10
 
 \subsection{II.2.3}
-
+ 
 \begin{equation*}
     E_{D}(w) = \frac{1}{2} \sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2
 \end{equation*}
@@ -249,11 +249,11 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 
 \begin{equation*}
     \begin{array}{r c c c c}
-           &   r_1 & 0   & .. & 0   \\
-           &   0   & r_2 & .. & 0   \\
+        &  \phi_0(x_1) & \phi_1(x_1)   & .. & \phi_{M-1}(x_1) \\
+        &  \phi_0(x_2) & \phi_1(x_2)   & .. & \phi_{M-1}(x_2) \\
   \Phi =   &  ...  & ... & .. & ...   \\
-           &   0   & 0   & .. & 0   \\
-           &   0   & 0   & .. & r_N 
+           &  \phi_0(x_{N-1}) & \phi_1(x_{N-1})   & .. & \phi_{M-1}(x_{N-1}) \\
+        &  \phi_0(x_N) & \phi_1(x_N)   & .. & \phi_{M-1}(x_N) 
     \end{array}
 \end{equation*}
 
