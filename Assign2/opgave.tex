@@ -87,10 +87,43 @@ We used the following to calculate our maximum posterior weight vector.\\
     S_{N} &= (\alpha \textbf{I} \cdot \beta \Phi^{T} \Phi)^{-1}
 \end{align*}
 We also know $w_{MAP} = m_N$.\\
-Giving the constant variable $\beta = 1$ we can reduce the equations to the following\\
-\begin{align*}
-    w_{MAP} &= (\alpha \textbf{I} \cdot \Phi)^{-1} \textbf{t}
-\end{align*}
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{Part2/II221.png}
+        \caption{Selection 1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{Part2/II222.png}
+        \caption{Selection 2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{Part2/II223.png}
+        \caption{Selection 3}
+    \end{subfigure}
+    \caption{MLS vs MAP}
+    \label{fig:II22}
+\end{figure}
+
+
+
+1:
+bestmN = [[-0.25975759], [ 0.99400395]]
+bestrms = 33.6875907352
+bestAlpha = 10
+
+
+2:
+bestmN = [[ 0.93127615]]
+bestrms = 20.8018430001
+bestAlpha = 10
+
+3:
+bestmN = [[-0.02833114], [ 0.18767638], [ 0.03828809], [-0.57547992], [ 1.35501008]]
+bestrms = 14.5218332936
+bestAlpha = 10
+
 
 \subsection{II.2.3}
 

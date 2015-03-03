@@ -123,18 +123,28 @@ actual = ttrain
 designMatrix = np.matrix(patsy.dmatrix(train3))
 plotVals = []
 
+bestmN = 0
+bestrms = float("inf")
+bestAlpha = 0
+
 for num in drange(1, 10.0, 0.2):
     alpha = pow(10, num)
-    # S0 = pow(alpha,-1) * np.identity(len(designMatrix))
 
     SN = pow(alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T, -1)
     mN = SN * designMatrix * actual
 
     predicted = maxLikelyhood(train3, mN)
     rms = math.sqrt(skm.mean_squared_error(actual, predicted))
+    if(rms < bestrms):
+        bestrms = rms
+        bestmN = mN
+        bestAlpha = alpha
     plotVals = np.append(plotVals, rms)
 
+print "bestmN = " + str(bestmN)
+print "bestrms = " + str(bestrms)
+print "bestAlpha = " + str(bestAlpha)
 
-plt.plot(np.repeat(rms3, len(plotVals)), "b-")
-plt.plot(plotVals, "r-")
+plt.plot(np.repeat(rms3, len(plotVals)), "b-", label = "Using MLS")
+plt.plot(plotVals, "r-", label = "Using MAP")
 plt.show()
