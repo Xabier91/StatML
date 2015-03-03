@@ -1,0 +1,6 @@
+m0 = 0
+S0 = 1/sigma * I
+b = 1
+I = enhedsmatricen
+
+sigma = parameter
