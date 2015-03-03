@@ -4,9 +4,9 @@
 
 \begin{document}
 
-\begin{equation}
-    y = argmax_{c_{j}\in C} \sum_{h_i \in H} P(c_j | h_i) P(T | h_i) P(h_i)
-\end{equation}
+% \begin{equation}
+    % y = argmax_{c_{j}\in C} \sum_{h_i \in H} P(c_j | h_i) P(T | h_i) P(h_i)
+% \end{equation}
 
 % X = {0}?
 % Y = {0,1}
@@ -15,23 +15,23 @@
 % We have 2 cases,
 \begin{equation}
 f(S) = \left\{ \begin{array}{l l}
-    1 & \quad \mbox{if \{$x$ \in \ $S: x = 1$\}}\\
+    1 & \quad \mbox{if \{$s_i$\in $S: 1 \in s_i$\}}\\
     0 & \quad \mbox{otherwise} \end{array} \right.
 \end{equation}
 
-\begin{align}
-    P(h1|C) &=.25\  P(0|h1) = 1\  P(1|h1) = 0\\
-    P(h2|C) &=.25\  P(0|h2) = 0\  P(1|h2) = 1\\
-    P(h3|C) &=.25\  P(0|h3) = 0\  P(1|h3) = 1\\
-    P(h4|C) &=.25\  P(0|h4) = 0\  P(1|h4) = 1
-\end{align}
+\begin{alignat*}{3}
+    P(h1|C) &=.25 \qquad &&P(0|h1) = 1 \qquad &&P(1|h1) = 0\\
+    P(h2|C) &=.25        &&P(0|h2) = 0        &&P(1|h2) = 1\\
+    P(h3|C) &=.25        &&P(0|h3) = 0        &&P(1|h3) = 1\\
+    P(h4|C) &=.25        &&P(0|h4) = 0        &&P(1|h4) = 1
+\end{alignat*}
 
 therefore,
 
-\begin{equation}
-    \sum_{h_i \in H} P(1|h_i)P(h_i|C) = 0.75
-    \sum_{h_i \in H} P(0|h_i)P(h_i|C) = 0.25
-\end{equation}
+\begin{align*}
+    \sum_{h_i \in H}& P(1|h_i)P(h_i|C) = 0.75\\
+    \sum_{h_i \in H}& P(0|h_i)P(h_i|C) = 0.25
+\end{align*}
 
 and 
 
