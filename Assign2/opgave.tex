@@ -193,4 +193,30 @@ ML solutions at respectivly $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
 
 \subsection{II.2.3}
 
+\begin{equation*}
+    E_{D}(w) = \frac{1}{2} \sum_{n=1}^{N} r_n(t_n - w^T\Phi(x_n))^2
+\end{equation*}
+
+\begin{equation*}
+    \frac{\delta}{\delta w_i} \frac{1}{2}\sum_{n=1}^{N} r_n(t_n - w^T\Phi(x_n))^2 dx
+\end{equation*}
+
+\begin{equation*}
+    \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w_i} (t_n - w^T\Phi(x_n))^2 dx
+\end{equation*}
+
+\begin{equation}
+    \frac{\delta}{\delta x} f(g(x)) dx = f'(g(x)) \cdot g'(x)
+\end{equation}
+
+\begin{equation*}
+    \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\Phi(x_n)) \cdot \frac{\delta}{\delta w_i} (t_n - w^T\Phi(x_n) dx
+\end{equation*}
+
+\begin{equation*}
+    \sum_{n=1}^{N} r_n (t_n - w^T\Phi(x_n)) \cdot 0 - 1 \cdot \Phi(x_n)
+\end{equation*}
+
+
+
 \end{document}
