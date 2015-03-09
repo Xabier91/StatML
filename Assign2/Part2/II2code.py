@@ -11,6 +11,24 @@ import patsy
 trainData = "sunspotsTrainStatML.dt"
 testData = "sunspotsTestStatML.dt"
 
+def extractT(filePath):
+    extraction = []
+    for line in parse(filePath):
+        extraction.append([float(line[5])])
+    return np.array(extraction)
+
+def parse(filePath):
+    ret = []
+    f = open(filePath, 'r')
+    for line in f.read().split('\n'):
+        ret.append(line.split(' '))
+    del ret[-1]
+    return ret
+
+ttest = extractT(testData)
+ttrain = extractT(trainData)
+actual = ttest
+
 def drange(start, stop, step):
          r = start
          while r < stop:
@@ -35,19 +53,7 @@ def extract3(filePath):
         extraction.append([float(x) for x in line[0:5]])
     return np.array(extraction)
 
-def extractT(filePath):
-    extraction = []
-    for line in parse(filePath):
-        extraction.append([float(line[5])])
-    return np.array(extraction)
 
-def parse(filePath):
-    ret = []
-    f = open(filePath, 'r')
-    for line in f.read().split('\n'):
-        ret.append(line.split(' '))
-    del ret[-1]
-    return ret
 
 def findMeans(data):
     ret = []
@@ -57,46 +63,58 @@ def findMeans(data):
 
 # Basic functions
 
-def w0(t, retval, ws):
-    return np.mean(t) - np.sum(ws * retval)
+def w0(phimean, ws):
+    """ttest is the target vector"""
+    # print ws
+    # print retval
+    sum = np.mean(ttest) - np.sum(ws * phimean)
+    return sum
+
+def transpose(data):
+    transposed = []
+    for column in range(len(data[0])):
+        transposed.append([])
+    for row in range(len(data)):
+        for column in range(len(data[row])):
+            transposed[column].append(data[row][column])
+    return transposed
 
 def maxLikelyhood(xs,ws):
+    xs = np.array(xs)
     ws = np.array(ws)
     ret = []
-    for i in range(len(xs[0])):
-        retval = 0
-        for j in range(len(xs)):
-            retval += xs[j][i] * ws[j][0]
-        # retval += w0(t, zip(*xs)[i], ws)  I dont know why this does not work
+    bias = []
+
+    weigthphi = []
+
+    #find biases
+    for column in range(len(xs)):
+        weigthphi.append(sum(xs[column])/len(xs[column]) * ws[column])
+    bias = sum(ttest)/len(ttest) - sum(weigthphi)
+
+    xs = transpose(xs)
+    for i in range(len(xs)):
+        retval = 0 + bias
+        for weigth in range(len(ws)):
+            retval += xs[i][weigth] * ws[weigth]
         ret.append(retval)
     return ret
-
-def identityBasic(input):
-    return input
-
-def gaussianBasic(input):
-    return np.exp(-(input - np.mean(input)/(np.power(2*np.std(input),2))))
-
-
 
 # Extracting data
 test1 = extract1(testData).T
 test2 = extract2(testData).T
 test3 = extract3(testData).T
-ttest = extractT(testData)
 
 train1 = extract1(trainData).T
 train2 = extract2(trainData).T
 train3 = extract3(trainData).T
-ttrain = extractT(trainData)
 
 # Calculating
-wML1 = np.array(np.linalg.pinv(np.matrix(findMeans(train1))) * np.mean(ttrain))
-wML2 = np.array(np.linalg.pinv(np.matrix(findMeans(train2))) * np.mean(ttrain))
-wML3 = np.array(np.linalg.pinv(np.matrix(findMeans(train3))) * np.mean(ttrain))
+wML1 = sum(np.linalg.pinv(np.array(train1)) * ttrain)
+wML2 = sum(np.linalg.pinv(np.array(train2)) * ttrain)
+wML3 = sum(np.linalg.pinv(np.array(train3)) * ttrain)
 
 
-actual = ttest
 # Plotting
 predicted = maxLikelyhood(test1, wML1)
 plt.plot(actual, "ro", label = "data")
@@ -110,6 +128,12 @@ plt.plot(ttest, "ro", label = "data")
 plt.plot(predicted, "b-", label = "fit")
 rms2 = math.sqrt(skm.mean_squared_error(actual, predicted))
 print "Selection 2 rms = " + str(rms2)
+plt.show()
+
+
+plt.plot(train2, ttrain.T, "bo")
+plt.plot(predicted, ttest, "ro")
+# plt.plot([0,200], [0,200])
 plt.show()
 
 predicted = maxLikelyhood(test3, wML3)
@@ -130,8 +154,8 @@ bestAlpha = 0
 for num in drange(1, 10.0, 0.2):
     alpha = pow(10, num)
 
-    SN = pow(alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T, -1)
-    mN = SN * designMatrix * actual
+    SN = alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T
+    mN = np.linalg.inv(SN) * designMatrix * actual
 
     predicted = maxLikelyhood(train2, mN)
     rms = math.sqrt(skm.mean_squared_error(actual, predicted))
@@ -141,9 +165,9 @@ for num in drange(1, 10.0, 0.2):
         bestAlpha = alpha
     plotVals = np.append(plotVals, rms)
 
-print "bestmN = " + str(bestmN)
-print "bestrms = " + str(bestrms)
-print "bestAlpha = " + str(bestAlpha)
+# print "bestmN = " + str(bestmN)
+# print "bestrms = " + str(bestrms)
+# print "bestAlpha = " + str(bestAlpha)
 
 plt.plot(np.repeat(rms2, len(plotVals)), "b-", label = "Using MLS")
 plt.plot(plotVals, "r-", label = "Using MAP")
