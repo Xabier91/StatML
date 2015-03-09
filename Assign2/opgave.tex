@@ -53,20 +53,25 @@ the rate is 21.05 \%.
 
 \subsection{II.1.2}
 
-After normalizing the data we observed the same error as on the
-non-transformed data. \\
-This is unsurprising as normalization preserves the relation in between
-the elements of the dataset. Graphically a plot of the data set would
-look identical except for a change of the axises. Finally LDA uses the
-covariance which fully describes the distribution of the data and thus
-renders normalization redundant.
+After normalizing the data we observe the same error as on the
+non-transformed data. \\ 
+
+This is unsurprising as LDA is based on the relations of the datapoints
+which is unchanged when you normalise them. Graphically a plot of the data
+set would look identical except for a change of the axises.
 
 \subsection{II.1.3}
+
+Bayes optimal classifier is a classifier which considers every hypothesis
+$h$  in the hypothesis space $Ħ$ and the probability of each of them. With
+$T$ being the training set and $C$ all the possible classes it can be
+described as this
 \begin{equation}  
    \label{eq:boc}
    y = argmax_{c_{j}\in C} \sum_{h_i \in H} P(c_j | h_i) P(T | h_i) P(h_i)
 \end{equation}
-Our output can have the following 2 cases, based on the outputspace Y:\\
+We now calculate the risk. Our output can have the following 2 cases, based 
+on the outputspace Y:\\
 \begin{equation*}
 f(S) = \left\{ \begin{array}{l l}
     1 & \quad \mbox{if \{$s_i$\in $S: 1 \in s_i$\}}\\
@@ -84,7 +89,7 @@ therefore,\\
     \sum_{h_i \in H}& P(1|h_i)P(h_i|C) = 0.75\\
     \sum_{h_i \in H}& P(0|h_i)P(h_i|C) = 0.25
 \end{align*}
-and\\
+and the optimal risk is then\\
 \begin{equation*}
     argmax_{c_{j}\in {0,1}} \sum_{h_i \in H} P(c_j | h_i) P(h_i|D) = 1
 \end{equation*}
@@ -201,17 +206,17 @@ We attempt to solve for $w$.
 First we differentiate the equation.
 
 \begin{equation*}
-    \frac{\delta}{\delta w_i} \frac{1}{2}\sum_{n=1}^{N} r_n(t_n - w^T\phi(x_n))^2 dx
+  \frac{\delta}{\delta w} \left[ \frac{1}{2}\sum_{n=1}^{N} r_n(t_n -w^T\phi(x_n))^2 ] \right] 
 \end{equation*}
 We move the constants and the summation outside the derivative.
 
 \begin{equation*}
-    \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n))^2 dx
+  \frac{1}{2}\sum_{n=1}^{N} r_n \frac{\delta}{\delta w} \left[ (t_n - w^T\phi(x_n))^2 \right]
 \end{equation*}
 We use the chain rule and solve the two parts individually.
 
 \begin{equation*}
-    \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\phi(x_n)) \cdot \frac{\delta}{\delta w_i} (t_n - w^T\phi(x_n) dx
+    \frac{1}{2}\sum_{n=1}^{N} r_n 2(t_n - w^T\phi(x_n)) \cdot \frac{\delta}{\delta w} \left[ (t_n - w^T\phi(x_n) \right]
 \end{equation*}
 
 \begin{equation*}
@@ -270,21 +275,35 @@ $t_n$ is a vector outside the summation and can be freely moved as well
 and the summations are done away with. 
 
 \begin{equation*}
-    0 = w^T R \Phi^2 - R \bar{t} \Phi 
+  0 = w^T R (\Phi^T \Phi) - R \bar{t}^T \Phi 
 \end{equation*}
 Now all that remains is to isolate $w$.
 
 \begin{equation*}
-    w^T R \Phi^2 = R \bar{t} \Phi 
+  w^T R (\Phi^T \Phi) = R \bar{t} \Phi 
 \end{equation*}
+We can move $w$ to the right on left handside and transpose parenthesis in
+its stead. And since it contains a matrix multiplied with its transpose we
+can drop it. On the right hand side we observe that we can move $t$ to the
+other side of $\Phi$ if we transpose it instead. 
 
 \begin{equation*}
-    w^T = \frac{R \bar{t} \Phi}{R \Phi^2}
+  R (\Phi^T \Phi) w = R \bar{t} \Phi 
 \end{equation*}
+Now we can multiply both sides by the inverse of $(\Phi^T \Phi)$. Since R
+is a diagonal matrix we can move that to the right of the parenthesis.
 
 \begin{equation*}
-    w^T = \frac{\bar{t}}{\Phi}
+  R w = (\Phi^T \Phi)^{-1} R \bar{t} \Phi 
 \end{equation*}
-Which clearly isn't the intended result. Any hints?
+And the inverse of $R$. This gives us the solution for $w$.
+
+\begin{equation*}
+  w = R^{-1}(\Phi^T \Phi)^{-1} R \bar{t} \Phi 
+\end{equation*}
+
+SVAR PÅ DE TO SIDSTE SPØRGSMÅL!! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+\JegOversaetterIkkeHAHAHAHAHAH!
+
 
 \end{document}
