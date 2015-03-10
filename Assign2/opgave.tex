@@ -117,15 +117,24 @@ All code for this section can be found in Part2/II2code.py, and should compile w
 
 \subsection{II.2.1}
 
-We used the linear model
+On figure \ref{fig:2scatter} we have plotted the x and t variables of the training set together with 
+with the real and predicted target variables on the test set. 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Part2/II212Scatter.png}
+    \caption{Selection 2 scatterplot of predicted vs actual values}
+    \label{fig:2scatter}
+\end{figure}\\
+% x = the feature that selection 2 uses and y = the target value for each sample 
+To calculate our maximum likelyhood solution We used the linear model
 \begin{equation*}
     y(x, w) = w_0 + w_1 x_1 + ... + w_D x_D
 \end{equation*}
 and calculated the RMS using the python library sklearn. this gave us the fittings seen on 
-figure \ref{fig:II21}. It seams Selection 2 provides the best prediction, but giving the problem some though, we concluded it nearly copies
-the previous years sunspot numbers. So even if it does have the lowest RMS, it is not guaranteed to be the best model.
+figure \ref{fig:II21}. The plots shows number of sunspots as a function of the year.\\
+It shows that Selection 3 has the best prediction, which makes sence as it has the highest dimensions.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{Part2/II211.png}
@@ -136,17 +145,12 @@ the previous years sunspot numbers. So even if it does have the lowest RMS, it i
         \caption{Fitting with $RMS = 29.2452004653$}
     \end{subfigure}
     \begin{subfigure}[b]{0.47\textwidth}
-        \includegraphics[width=\textwidth]{Part2/II212Scatter.png}
-        \caption{Selection 2 scatterplot of predicted vs actual values}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{Part2/II213.png}
         \caption{Fitting with $RMS = 18.7225909686$}
     \end{subfigure}
     \caption{Fittings using linear regression and ML}
     \label{fig:II21}
 \end{figure}
-
 
 \subsection{II.2.2}
 
