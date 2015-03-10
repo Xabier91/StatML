@@ -117,7 +117,6 @@ def maxLikelyhood(xs,ws):
     return ret
 
 def MAP(trainset, testset, rmsold, wML):
-  
     designMatrix = np.matrix(patsy.dmatrix(trainset)) #np.array(patsy.dmatrix(train2))[0]
     plotVals = []
     plotAlphas = []
@@ -148,6 +147,8 @@ def MAP(trainset, testset, rmsold, wML):
 
     plt.plot(plotAlphas, np.repeat(rmsold,len(plotVals)), "b-", label = "Using MLS")
     plt.plot(plotAlphas, plotVals, "r-", label = "Using MAP")
+    plt.xlabel("x where alpha = 10^x")
+    plt.ylabel("RMS")
     plt.show()
 
 # Extracting data
@@ -166,16 +167,20 @@ wML3 = sum(np.linalg.pinv(np.array(train3)) * ttrain)
 
 
 # Plotting
-# predicted = maxLikelyhood(test1, wML1)
-# plt.plot(actual, "ro", label = "data")
-# plt.plot(predicted, "b-", label = "fit")
-# rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print "Selection 1 rms = " + str(rms1)
-# plt.show()
+predicted = maxLikelyhood(test1, wML1)
+plt.plot(actual, "ro", label = "data")
+plt.ylabel("Number of sunspots")
+plt.xlabel("Year")
+plt.plot(predicted, "b-", label = "fit")
+rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
+print "Selection 1 rms = " + str(rms1)
+plt.show()
 
 predicted = maxLikelyhood(test2, wML2)
 plt.plot(ttest, "ro", label = "data")
 plt.plot(predicted, "b-", label = "fit")
+plt.ylabel("Number of sunspots")
+plt.xlabel("Year")
 rms2 = math.sqrt(skm.mean_squared_error(actual, predicted))
 print "Selection 2 rms = " + str(rms2)
 plt.show()
@@ -183,18 +188,22 @@ plt.show()
 
 plt.plot(train2, ttrain.T, "bo")
 plt.plot(predicted, ttest, "ro")
+plt.xlabel("predicted number of sunspots")
+plt.ylabel("actual number of sunspots")
 # plt.plot([0,200], [0,200])
 plt.show()
 
-# predicted = maxLikelyhood(test3, wML3)
-# plt.plot(ttest, "ro", label = "data")
-# plt.plot(predicted, "b-", label = "fit")
-# rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print "Selection 3 rms = " + str(rms3)
-# plt.show()
+predicted = maxLikelyhood(test3, wML3)
+plt.plot(ttest, "ro", label = "data")
+plt.plot(predicted, "b-", label = "fit")
+plt.ylabel("Number of sunspots")
+plt.xlabel("Year")
+rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
+print "Selection 3 rms = " + str(rms3)
+plt.show()
 
-# MAP(train1, test1, rms1, wML1)
-# MAP(train2, test2, rms2, wML2)
-# MAP(train3, test3, rms3, wML3)
+MAP(train1, test1, rms1, wML1)
+MAP(train2, test2, rms2, wML2)
+MAP(train3, test3, rms3, wML3)
 
 
