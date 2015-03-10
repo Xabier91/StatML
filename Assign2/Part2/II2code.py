@@ -124,7 +124,7 @@ def MAP(trainset, testset, rmsold, wML):
 
     bestmN = 0
     bestrms = float("inf")
-    bestAlpha = 0
+    bestNum = 0
 
     for num in drange(0, 7.0, 0.001):
         alpha = pow(10, num)
@@ -138,13 +138,13 @@ def MAP(trainset, testset, rmsold, wML):
         if(rms < bestrms):
             bestrms = rms
             bestmN = mN
-            bestAlpha = alpha
+            bestNum = num
         plotVals = np.append(plotVals, rms)
         plotAlphas = np.append(plotAlphas, num)
 
     print "bestmN = " + str(bestmN)
     print "bestrms = " + str(bestrms)
-    print "bestAlpha = " + str(bestAlpha)
+    print "bestAlpha = " + str(bestNum)
 
     plt.plot(plotAlphas, np.repeat(rmsold,len(plotVals)), "b-", label = "Using MLS")
     plt.plot(plotAlphas, plotVals, "r-", label = "Using MAP")
@@ -166,35 +166,35 @@ wML3 = sum(np.linalg.pinv(np.array(train3)) * ttrain)
 
 
 # Plotting
-predicted = maxLikelyhood(test1, wML1)
+# predicted = maxLikelyhood(test1, wML1)
 # plt.plot(actual, "ro", label = "data")
 # plt.plot(predicted, "b-", label = "fit")
-rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
+# rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
 # print "Selection 1 rms = " + str(rms1)
 # plt.show()
 
 predicted = maxLikelyhood(test2, wML2)
-# plt.plot(ttest, "ro", label = "data")
-# plt.plot(predicted, "b-", label = "fit")
+plt.plot(ttest, "ro", label = "data")
+plt.plot(predicted, "b-", label = "fit")
 rms2 = math.sqrt(skm.mean_squared_error(actual, predicted))
-# print "Selection 2 rms = " + str(rms2)
-# plt.show()
+print "Selection 2 rms = " + str(rms2)
+plt.show()
 
 
-# plt.plot(train2, ttrain.T, "bo")
-# plt.plot(predicted, ttest, "ro")
-# # plt.plot([0,200], [0,200])
-# plt.show()
+plt.plot(train2, ttrain.T, "bo")
+plt.plot(predicted, ttest, "ro")
+# plt.plot([0,200], [0,200])
+plt.show()
 
-predicted = maxLikelyhood(test3, wML3)
+# predicted = maxLikelyhood(test3, wML3)
 # plt.plot(ttest, "ro", label = "data")
 # plt.plot(predicted, "b-", label = "fit")
-rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
+# rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
 # print "Selection 3 rms = " + str(rms3)
 # plt.show()
 
-MAP(train1, test1, rms1, wML1)
-MAP(train2, test2, rms2, wML2)
-MAP(train3, test3, rms3, wML3)
+# MAP(train1, test1, rms1, wML1)
+# MAP(train2, test2, rms2, wML2)
+# MAP(train3, test3, rms3, wML3)
 
 
