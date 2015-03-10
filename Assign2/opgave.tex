@@ -54,8 +54,7 @@ the rate is 21.05 \%.
 \subsection{II.1.2}
 
 After normalizing the data we observe the same error as on the
-non-transformed data. \\ 
-
+non-transformed data.  
 This is unsurprising as LDA is based on the relations of the datapoints
 which is unchanged when you normalise them. Graphically a plot of the data
 set would look identical except for a change of the axises.
@@ -292,26 +291,26 @@ and the summations are done away with.
 Now all that remains is to isolate $w$.
 
 \begin{equation*}
-  w^T R (\Phi^T \Phi) = R \bar{t} \Phi 
+  w^T R (\Phi^T \Phi) = R \bar{t}^T \Phi 
 \end{equation*}
 We can move $w$ to the right on left handside and transpose parenthesis in
 its stead. And since it contains a matrix multiplied with its transpose we
 can drop it. On the right hand side we observe that we can move $t$ to the
-other side of $\Phi$ if we transpose it instead. 
+other side of $\Phi$ if we transpose that instead. 
 
 \begin{equation*}
-  R (\Phi^T \Phi) w = R \bar{t} \Phi 
+  R (\Phi^T \Phi) w = R  \Phi ^T \bar{t}
 \end{equation*}
 Now we can multiply both sides by the inverse of $(\Phi^T \Phi)$. Since R
 is a diagonal matrix we can move that to the right of the parenthesis.
 
 \begin{equation*}
-  R w = (\Phi^T \Phi)^{-1} R \bar{t} \Phi 
+  R w = (\Phi^T \Phi)^{-1} R \Phi ^T  \bar{t}
 \end{equation*}
 And the inverse of $R$. This gives us the solution for $w$.
 
 \begin{equation*}
-  w = R^{-1}(\Phi^T \Phi)^{-1} R \bar{t} \Phi 
+  w = R^{-1}(\Phi^T \Phi)^{-1} R \Phi ^T  \bar{t}
 \end{equation*}
 
 \paragraph{\emph{I}}
