@@ -79,6 +79,22 @@ def transpose(data):
             transposed[column].append(data[row][column])
     return transposed
 
+def maxLikelyhoodbias(xs,ws, w0):
+    xs = np.array(xs)
+    ws = np.array(ws)
+    ret = []
+    bias = []
+
+    weigthphi = []
+
+    xs = transpose(xs)
+    for i in range(len(xs)):
+        retval = 0 + w0 
+        for weigth in range(len(ws)):
+            retval += xs[i][weigth] * ws[weigth]
+        ret.append(retval)
+    return ret
+
 def maxLikelyhood(xs,ws):
     xs = np.array(xs)
     ws = np.array(ws)
@@ -100,6 +116,40 @@ def maxLikelyhood(xs,ws):
         ret.append(retval)
     return ret
 
+def MAP(trainset, testset, rmsold, wML):
+  
+    designMatrix = np.matrix(patsy.dmatrix(trainset)) #np.array(patsy.dmatrix(train2))[0]
+    plotVals = []
+    plotAlphas = []
+
+    bestmN = 0
+    bestrms = float("inf")
+    bestNum = 0
+
+    for num in drange(0, 7.0, 0.001):
+        alpha = pow(10, num)
+
+        SN = alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T
+
+        mN = np.linalg.inv(SN) * designMatrix * np.matrix(ttrain)
+
+        predicted = maxLikelyhood(testset, mN)
+        rms = math.sqrt(skm.mean_squared_error(ttest, predicted))
+        if(rms < bestrms):
+            bestrms = rms
+            bestmN = mN
+            bestNum = num
+        plotVals = np.append(plotVals, rms)
+        plotAlphas = np.append(plotAlphas, num)
+
+    print "bestmN = " + str(bestmN)
+    print "bestrms = " + str(bestrms)
+    print "bestAlpha = " + str(bestNum)
+
+    plt.plot(plotAlphas, np.repeat(rmsold,len(plotVals)), "b-", label = "Using MLS")
+    plt.plot(plotAlphas, plotVals, "r-", label = "Using MAP")
+    plt.show()
+
 # Extracting data
 test1 = extract1(testData).T
 test2 = extract2(testData).T
@@ -116,12 +166,12 @@ wML3 = sum(np.linalg.pinv(np.array(train3)) * ttrain)
 
 
 # Plotting
-predicted = maxLikelyhood(test1, wML1)
-plt.plot(actual, "ro", label = "data")
-plt.plot(predicted, "b-", label = "fit")
-rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
-print "Selection 1 rms = " + str(rms1)
-plt.show()
+# predicted = maxLikelyhood(test1, wML1)
+# plt.plot(actual, "ro", label = "data")
+# plt.plot(predicted, "b-", label = "fit")
+# rms1 = math.sqrt(skm.mean_squared_error(actual, predicted))
+# print "Selection 1 rms = " + str(rms1)
+# plt.show()
 
 predicted = maxLikelyhood(test2, wML2)
 plt.plot(ttest, "ro", label = "data")
@@ -136,39 +186,15 @@ plt.plot(predicted, ttest, "ro")
 # plt.plot([0,200], [0,200])
 plt.show()
 
-predicted = maxLikelyhood(test3, wML3)
-plt.plot(ttest, "ro", label = "data")
-plt.plot(predicted, "b-", label = "fit")
-rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
-print "Selection 3 rms = " + str(rms3)
-plt.show()
+# predicted = maxLikelyhood(test3, wML3)
+# plt.plot(ttest, "ro", label = "data")
+# plt.plot(predicted, "b-", label = "fit")
+# rms3 = math.sqrt(skm.mean_squared_error(actual, predicted))
+# print "Selection 3 rms = " + str(rms3)
+# plt.show()
 
-actual = ttrain
-designMatrix = np.matrix(patsy.dmatrix(train2))
-plotVals = []
+# MAP(train1, test1, rms1, wML1)
+# MAP(train2, test2, rms2, wML2)
+# MAP(train3, test3, rms3, wML3)
 
-bestmN = 0
-bestrms = float("inf")
-bestAlpha = 0
 
-for num in drange(1, 10.0, 0.2):
-    alpha = pow(10, num)
-
-    SN = alpha * np.identity(len(designMatrix)) + designMatrix * designMatrix.T
-    mN = np.linalg.inv(SN) * designMatrix * actual
-
-    predicted = maxLikelyhood(train2, mN)
-    rms = math.sqrt(skm.mean_squared_error(actual, predicted))
-    if(rms < bestrms):
-        bestrms = rms
-        bestmN = mN
-        bestAlpha = alpha
-    plotVals = np.append(plotVals, rms)
-
-# print "bestmN = " + str(bestmN)
-# print "bestrms = " + str(bestrms)
-# print "bestAlpha = " + str(bestAlpha)
-
-plt.plot(np.repeat(rms2, len(plotVals)), "b-", label = "Using MLS")
-plt.plot(plotVals, "r-", label = "Using MAP")
-plt.show()

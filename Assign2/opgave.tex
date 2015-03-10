@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage[margin=1.0in]{geometry}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{upgreek}
 \usepackage{amsmath}
 \usepackage{minted}
@@ -127,17 +127,21 @@ the previous years sunspot numbers. So even if it does have the lowest RMS, it i
 
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{Part2/II211.png}
-        \caption{fitting with $RMS = 64.4180$}
+        \caption{Fitting with $RMS = 43.9015607236$}
     \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{Part2/II212.png}
-        \caption{fitting with $RMS = 30.1460$}
+        \caption{Fitting with $RMS = 29.2452004653$}
     \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
+        \includegraphics[width=\textwidth]{Part2/II212Scatter.png}
+        \caption{Selection 2 scatterplot of predicted vs actual values}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{Part2/II213.png}
-        \caption{fitting with $RMS = 49.8736$}
+        \caption{Fitting with $RMS = 18.7225909686$}
     \end{subfigure}
     \caption{Fittings using linear regression and ML}
     \label{fig:II21}
@@ -147,13 +151,18 @@ the previous years sunspot numbers. So even if it does have the lowest RMS, it i
 \subsection{II.2.2}
 
 On figure \ref{fig:II22} the plots of our MAP estimations are shown in relation
-to our ML solutions. In each picture, the blue line is the estimation of
+to our ML solutions. In each picture, the blue line is the estimation of    
 our Maximum likelihood solution and the red our MAP estimations given 
-different alpha values, plottet on the x-axis.\\
-According to our calculations, all the Selections has the best alpha values
-when $\alpha \rightarrow 0$, with the Selection 1 ML solution never crossing 
-our MAP solution. In Selection 2 and 3, the MAP values solutions is worse then the
-ML solutions at respectively $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
+different values, plottet on the x-axis.\\
+Please note that the alpha value is calculated by $\alpha = 10^{x} $ where x    
+is plotted on the x-axis of figure \ref{fig:II22}.\\
+It is easy to see, that in figure \ref{fig:II221} the ML solution is
+betther than the MAP solution, as the error value from MAP 
+never drops below our ML solutions rms.\\
+Our MAP estimations for Selection 2 and 3 are however better then our ML solutions with the 
+best values being at respectivly $x = 5.001$ with an rms of 28.6 and $x = 3.546$ with and rms of 18.57.\\
+This means our \textbf{best results are Selection 3 with the MAP estimation}.
+Selection 2 decents below the ML solutions at around $x \sim 3$. Selection 3 at $x \sim 2.8$
 
 % We used the following to calculate our maximum posterior weight vector.\\
 % \begin{align*}
@@ -168,33 +177,41 @@ ML solutions at respectively $alpha \sim 10^{23}$ and $alpha \sim 10^{30}$
     \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II221.png}
         \caption{Selection 1}
+        \label{fig:II221}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II222.png}
         \caption{Selection 2}
+        \label{fig:II222}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[width=\textwidth]{Part2/II223.png}
         \caption{Selection 3}
+        \label{fig:II223}
     \end{subfigure}
     \caption{MLS vs MAP}
     \label{fig:II22}
 \end{figure}
 
-% 1:
-% bestmN = [[-0.25975759], [ 0.99400395]]
-% bestrms = 33.6875907352
-% bestAlpha = 10
+% \begin{verbatim}
+% Selection 1:
+% bestmN = [[-0.25979644]
+          % [ 0.99404856]]
+% bestrms = 43.9015675468
+% bestAlpha = 1
 
-% 2:
-% bestmN = [[ 0.93127615]]
-% bestrms = 20.8018430001
-% bestAlpha = 10
+% bestmN = [[ 0.80531681]]
+% bestrms = 28.6056302671
+% bestAlpha = 100230.523808
 
-% 3:
-% bestmN = [[-0.02833114], [ 0.18767638], [ 0.03828809], [-0.57547992], [ 1.35501008]]
-% bestrms = 14.5218332936
-% bestAlpha = 10
+% bestmN = [[-0.02455309]
+          % [ 0.20662984]
+          % [-0.00638428]
+          % [-0.44285572]
+          % [ 1.2408648 ]]
+% bestrms = 18.5789196201
+% bestAlpha = 3515.60440528
+% \end{verbatim}
 
 \subsection{II.2.3}
 
@@ -302,8 +319,12 @@ And the inverse of $R$. This gives us the solution for $w$.
   w = R^{-1}(\Phi^T \Phi)^{-1} R \bar{t} \Phi 
 \end{equation*}
 
-SVAR PÅ DE TO SIDSTE SPØRGSMÅL!! ! ! ! ! ! ! ! ! ! ! ! ! ! !
-\JegOversaetterIkkeHAHAHAHAHAH!
+\subsubsection{II.2.3.I}
+
+\subsubsection{II.2.3.II}
+
+% SVAR PÅ DE TO SIDSTE SPØRGSMÅL!! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+% \JegOversaetterIkkeHAHAHAHAHAH!
 
 
 \end{document}
