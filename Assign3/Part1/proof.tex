@@ -1,0 +1,66 @@
+\subsection{proof}
+
+For the hidden neurons, we have the non-linearity (transfer function, activation function)
+\begin{equation*}
+    h(a) = \frac{a}{1 + |a|}
+\end{equation*}
+And we wish to find its derivitive 
+
+\begin{equation*}
+    h'(a) = \frac{d}{da}\frac{a}{1 + |a|}
+\end{equation*}
+We start by using the quotient rule 
+
+\begin{equation*}
+    \frac{d}{da} \frac{u}{v} = \frac{v \frac{du}{dv} - u\frac{dv}{du}}{v^2}
+\end{equation*}
+Where $u = a$ and $v = |a| + 1$
+
+\begin{equation*}
+    \frac{(1 + |a|) (\frac{d}{da}(a)) - a(\frac{d}{da}(1 + |a|))}{(1 + |a|)^2}
+\end{equation*}
+The derivative of a is 1
+
+\begin{equation*}
+    \frac{(1 + |a|)(1) - a(\frac{d}{da}(1 + |a|))}{(1 + |a|)^2}
+\end{equation*}
+Simplify:
+
+\begin{equation*}
+    \frac{1 + |a| - a(\frac{d}{da}(1 + |a|))}{(1 + |a|)^2}
+\end{equation*}
+We split up the term and differentiate independently:
+
+\begin{equation*}
+    \frac{1 + |a| - a(\frac{d}{da}(1) + \frac{d}{da}(|a|))}{(1 + |a|)^2}
+\end{equation*}
+the derivation of 1 is 0
+
+\begin{equation*}
+    \frac{1 + |a| - a(\frac{d}{da}(|a|))}{(1 + |a|)^2}
+\end{equation*}
+the derivation of $|a|$ is $\frac{a}{|a|}$
+
+\begin{equation*}
+    \frac{1 + |a| - a(\frac{a}{|a|})}{(1 + |a|)^2}
+\end{equation*}
+Simplify:
+
+\begin{equation} \label{mathlol}
+    \frac{1 + |a| - \frac{a^2}{|a|}}{(1 + |a|)^2}
+\end{equation}
+If $a = 0$ we try (\ref{mathlol}):
+
+\begin{equation*}
+    \frac{1 + 0 - \frac{0^2}{0}}{(1 + 0)^2}\\
+\end{equation*}
+This becomes impossible as we try to divide by zero.\\
+With both $a > 0$ and $a < 0$ means $|a| = a$ we use (\ref{mathlol}):
+\begin{equation*}
+    &\frac{1 + a - \frac{a^2}{a}}{(1 + a)^2}\\
+\end{equation*}
+Simplify:
+
+\begin{equation*}
+    h'(a) = \frac{1}{(1 + |a|)^2}
+\end{equation*}
