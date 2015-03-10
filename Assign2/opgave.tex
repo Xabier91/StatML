@@ -125,7 +125,6 @@ with the real and predicted target variables on the test set.
     \caption{Selection 2 scatterplot of predicted vs actual values}
     \label{fig:2scatter}
 \end{figure}\\
-% x = the feature that selection 2 uses and y = the target value for each sample 
 To calculate our maximum likelyhood solution We used the linear model
 \begin{equation*}
     y(x, w) = w_0 + w_1 x_1 + ... + w_D x_D
@@ -167,14 +166,6 @@ Our MAP estimations for Selection 2 and 3 are however better then our ML solutio
 best values being at respectivly $x = 5.001$ with an rms of 28.6 and $x = 3.546$ with and rms of 18.57.\\
 This means our \textbf{best results are Selection 3 with the MAP estimation}.
 Selection 2 decents below the ML solutions at around $x \sim 3$. Selection 3 at $x \sim 2.8$
-
-% We used the following to calculate our maximum posterior weight vector.\\
-% \begin{align*}
-    % p(w|\alpha) &= \mathcal{N}(w|0, \alpha^{-1}\textbf{I})\\
-    % m_{N} &= \beta S_{N} \Phi^{T} \textbf{t}\\
-    % S_{N} &= (\alpha \textbf{I} \cdot \beta \Phi^{T} \Phi)^{-1}
-% \end{align*}
-% We also know $w_{MAP} = m_N$.\\
 
 \begin{figure}[!ht]
     \centering
@@ -323,16 +314,12 @@ And the inverse of $R$. This gives us the solution for $w$.
   w = R^{-1}(\Phi^T \Phi)^{-1} R \bar{t} \Phi 
 \end{equation*}
 
-\subsubsection{II.2.3.I}
-
+\paragraph{\emph{I}}
 If we have some knowledge of the data, the weights can be adjusted to make
 up for some assumed noise in the dataset.
 
-\subsubsection{II.2.3.II} 
-
+\paragraph{\emph{II}}
 If we have replicate datapoints we risk
 these points become overly important for our error function, when we use
 weigthed sum of square we can reduce the impact of the replicated points.
-
-
 \end{document}
