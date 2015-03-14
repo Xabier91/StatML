@@ -46,4 +46,142 @@ Students: & Lasse Ahlbech Madsen \\
 
 \input{Part1/proof.tex}
 
+
+\section{III.2}
+
+The code for this section can be found in Part2/. The script
+"Opgaveiii21.m executes the entire thing.
+
+\subsection{III.2.1}
+
+\iffalse
+  HAHAHAHAHAHHAHAHAHAHAHAHAHAHAHAHAHAHHAHA nej
+\begin{table}[h!]
+  \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+    & Attribute 1 & Attribute 2 & Attribute 3 & Attribute 4 & Attribute 5 &
+    Attribute 6 & Attribute 7 & Attribute 8 & Attribute 9 & Attribute 10 &
+    Attribute 11 & Attribute 12 & Attribute 13 & Attribute 14 & Attribute
+    15 & Attribute 16 & Attribute 17 & Attribute 18 & Attribute 19 &
+    Attribute 20 & Attribute 21 & Attribute 22 \\
+    Mean traindata & 155.9604 & 204.8212 & 115.0586  &  0.0060 &   0.0000 &   
+    0.0032 & 0.0033 &   0.0096 &   0.0277 &   0.2624 &   0.0147 &   0.0166 & 
+    0.0220 &  0.0440  &  0.0226  & 22.0007  &  0.4948 &   0.7157 &  -5.7637 &
+    0.2148&    2.3658 &   0.1997 \\
+    Variance traindata & 1.9830  &  9.7331 &   2.1152  &  0.0000 &
+    0.0000 &  0.0000  &  0.0000 &   0.0000 &   0.0000  &  0.0000  &
+    0.0000 &   0.0000 &  0.0000 &   0.0000    & 0.0000 &   0.0167  &
+    0.0000 & 0.0000  &  0.0011  &  0.0000 &   0.0001 &   0.0000 \\
+    Mean normalized testdata &  -0.0782 &  -0.1572  &  0.0553 &   0.1126 &
+    0.0712 &   0.0865  &  0.1151 &   0.0866  &  0.2477  &  0.2439 &
+    0.2284 &   0.2496 & 0.3150 &   0.2284 &   0.1483 &  -0.0565 &   0.0732
+    &    0.0863 &   0.1540 &   0.3091 &   0.0870  &  0.1677 
+    
+  \end{tabular}
+  \label{tab:meanvar}
+  \caption{The mean and variance of the data. First the unnormalized traindata,
+  then the normalized testdata.}
+\end{table}
+\end{comment}
+
+\fi
+
+Below is a printout of the mean and variance of the untransformed
+traindata attribute and the transformed testdata attributes. The
+testdata obviously does not have zero mean and unit variance as it is
+transformed with the mean and standard deviation of the traindata.
+
+\begin{verbatim}
+>> mean(traindata)
+
+ans =
+
+  Columns 1 through 12
+
+  155.9604  204.8212  115.0586    0.0060    0.0000    0.0032    0.0033    0.0096    0.0277    0.2624    0.0147    0.0166
+
+  Columns 13 through 22
+
+    0.0220    0.0440    0.0226   22.0007    0.4948    0.7157   -5.7637    0.2148    2.3658    0.1997
+
+>> var(traindata)
+
+ans =
+
+   1.0e+03 *
+
+  Columns 1 through 12
+
+    1.9830    9.7331    2.1152    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+
+  Columns 13 through 22
+
+    0.0000    0.0000    0.0000    0.0167    0.0000    0.0000    0.0011    0.0000    0.0001    0.0000
+
+>> mean(normtest)
+
+ans =
+
+  Columns 1 through 12
+
+   -0.0782   -0.1572    0.0553    0.1126    0.0712    0.0865    0.1151    0.0866    0.2477    0.2439    0.2284    0.2496
+
+  Columns 13 through 22
+
+    0.3150    0.2284    0.1483   -0.0565    0.0732    0.0863    0.1540    0.3091    0.0870    0.1677
+
+>> var(normtest)
+
+ans =
+
+  Columns 1 through 12
+
+    0.7323    0.7150    0.7977    1.9906    1.6662    2.1370    1.9225    2.1379    1.7721    1.8292    1.7175    1.7780
+
+  Columns 13 through 22
+
+    2.1905    1.7176    2.6633    1.3610    1.0827    0.9514    1.2166    1.3629    1.1336    1.4149
+\end{verbatim}
+
+\subsection{III.2.2}
+
+We have used matlabs inbuilt svm-training function "svmtrain" to get our
+results. It makes it possible to specify a kernel function of your liking
+and choose a $\gamma$ and a $C$ of your choosing, so we did not look
+further. 
+
+We did the crossvalidation by splitting the data into 5 parts. Three of
+size 20 and two of size 19. Additionally we made a list of size 7 for 
+possible $\gamma$'s and the same for C. Then we trained a model for each
+combination and chose the one with the lowest 0-1 loss and retrained it to
+use on both the trainingdata and the testdata.
+
+On the unnormalized data we observed a 0-1 loss of 18 \% on the trainingdata
+and 22 \% on the testdata. The best C on the unnormalized data is 0.01 and
+the best \gamma is 0.0000001. 
+
+On the normalized data the 0-1 loss on the trainingdata was 0 \% and 9 \%
+on the testdata. The best C was 10 or 100 and the best \gamma was 0.1.
+
+Without normalization some features weigh much more than others.
+Particularly the first three columns are quite a bit higher than the other
+columns. 
+
+\subsection{III.2.3}
+For the following section we will use the normalized data.
+
+\subsubsection{III.2.3.1}
+In our model there are 54 free support vectors and 0 bounded. 
+
+Decreasing C increase the number of support vectors. This gives more
+precision, but having a support vector for every point of data can give
+computational overhead with a larger dataset.
+
+
+\subsection{III.2.3.2}
+
+More data will result in more support vectors. This will give increased
+precision, but also a potential cost in performance of the model. For
+large scale application it may be a good idea to increase C to lower the
+amount of support vectors to hasten the computations.
+
 \end{document}
