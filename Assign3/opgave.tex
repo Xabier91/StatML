@@ -152,15 +152,15 @@ further.
 We did the crossvalidation by splitting the data into 5 parts. Three of
 size 20 and two of size 19. Additionally we made a list of size 7 for 
 possible $\gamma$'s and the same for C. Then we trained a model for each
-combination and chose the one with the lowest 0-1 loss and retrained it to
-use on both the trainingdata and the testdata.
+combination and chose the one with the lowest 0-1 loss and used the found
+values to train the new model. 
 
 On the unnormalized data we observed a 0-1 loss of 18 \% on the trainingdata
 and 22 \% on the testdata. The best C on the unnormalized data is 0.01 and
-the best \gamma is 0.0000001. 
+the best $\gamma$  is 0.0000001. 
 
 On the normalized data the 0-1 loss on the trainingdata was 0 \% and 9 \%
-on the testdata. The best C was 10 or 100 and the best \gamma was 0.1.
+on the testdata. The best C was 10 or 100 and the best $\gamma$ was 0.1.
 
 Without normalization some features weigh much more than others.
 Particularly the first three columns are quite a bit higher than the other
