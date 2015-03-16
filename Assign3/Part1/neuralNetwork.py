@@ -1,109 +1,23 @@
-import time
+from time import sleep
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+from parser import fromFile
 
-class Layer:
-    name = "unnamed"
-    neurons = None
-
-    def __init__(self, name):
-        self.name = name
-        self.neurons = []
-        self.say("Hello World!")
-
-    def sendToLayer(self, layer):
-        print ""
-        self.say("sending to " + layer.getName())
-        for reciever in layer.getNeurons():
-            for sender in self.neurons:
-                reciever.addRecieveFrom(sender)
-                sender.addSendTo(reciever)
-
-    def recieveFromLayer(self, layer):
-        print ""
-        self.say("recieving from " + layer.getName())
-        senders = layer.getNeurons()
-        for reciever in self.neurons:
-            for sender in senders:
-                reciever.addRecieveFrom(sender)
-                sender.addSendTo(reciever)
-
-    def addNeuron(self, neuron):
-        self.say("got something named \"" + neuron.getName() + "\"")
-        self.neurons.append(neuron)
-
-    def getNeurons(self):
-        return self.neurons
-
-    def getName(self):
-        return self.name
-
-    def say(self, message):
-        print self.name + ": " + message
-
-class Neuron:
-
-    name = "unnamed"
-
-    value = None
-
-    transformFunc = None
-
-    # reciever contains the neurons this neuron send information to (does not
-    # include weigh)
-    sendTo = None
-
-    # reciever contains the neurons this neuron recieves information from
-    # includes weigh)
-    recieveFrom = None
+import numpy as np
+import neuron as ne
+import layer as la
 
 
-    def __init__(self, func, name):
-        self.sendTo = []
-        self.recieveFrom = []
-        self.name = name
-        self.transformFunc = func
-        self.say("Hello world!")
-
-    def broadcast(self, input):
-        self.say("broadcasting " + str(input))
-        self.value = input
-        self.sendAll()
-
-    def addRecieveFrom(self, neigh):
-        self.say("got a new node named \"" + neigh.getName() + "\" listening to it!")
-        self.recieveFrom.append((neigh, 1))
-
-    def addSendTo(self, neigh):
-        self.say("got a new node named \"" + neigh.getName() + "\" sending to it!")
-        self.sendTo.append((neigh, 1))
-
-    def transferFromNeuron(self, sender, x, weigh):
-        self.say("got a message from \"" + sender.getName() + "\" saying " + str(x))
-        self.value = self.transformFunc(x)
-        self.sendAll()
-
-    def sendAll(self):
-        for (neighbor, weigh) in self.sendTo:
-            neighbor.transferFromNeuron(self, self.value, weigh)
-
-    def updateWeigh(self, x):
-        # Do something to update weights
-        for (neighbor, weigh) in self.recieveFrom:
-            neighbor.updateWeigh(x)
-
-    def getValue(self):
-        print ""
-        self.say("Im outputting: " + str(self.value))
-        return self.value
-
-    def say(self, message):
-        print "    " + self.name + ": " + message
-
-    def getName(self):
-        return self.name
-
+# Helper functions
 def addConnection(a,b):
     a.sendToLayer(b)
-    b.recieveFromLayer(a)
+
+def meanSquareError(target, actual):
+    return ((target - actual) ** 2)#.mean(axis=ax)
+
+def say(message):
+    if networkTalk:
+        print message
 
 # Transfer funcions
 def nonLinear(x):
@@ -112,41 +26,101 @@ def nonLinear(x):
 def linear(x):
     return x
 
+
+# Network API
+def createNetwork(learnConst, momentum):
+    ne.Neuron.talk = networkTalk
+    la.Layer.talk = networkTalk
+    say("Creating Layers")
+    say("----------------------------------------------------------")
+    layers.append(la.Layer("Int Layer", learnConst, momentum))
+    layers.append(la.Layer("Hid Layer1", learnConst, momentum))
+    # layers.append(la.Layer("Hid Layer2", learnConst))
+    layers.append(la.Layer("Out Layer", learnConst, momentum))
+    say("----------------------------------------------------------")
+    say("Done creating layers! \n")
+
+    say("Adding nodes to layers")
+    say("----------------------------------------------------------")
+    layers[0].addNeuron(ne.Neuron(linear, "Inp neuron"))
+    layers[1].addNeuron(ne.Neuron(nonLinear, "Hid neuron11"))
+    # layers[1].addNeuron(ne.Neuron(nonLinear, "Hid neuron12"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron21"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron22"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron23"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron24"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron25"))
+    # layers[2].addNeuron(ne.Neuron(nonLinear, "Hid neuron26"))
+    layers[2].addNeuron(ne.Neuron(linear, "Out neuron"))
+    say("----------------------------------------------------------")
+    say("Done adding! \n")
+
+    say("Adding connections between layers")
+    say("----------------------------------------------------------")
+    addConnection(layers[0], layers[1])
+    addConnection(layers[1], layers[2])
+    # addConnection(layers[2], layers[3])
+    say("----------------------------------------------------------")
+    say("Done building! \n")
+    return (layers[0], layers[2])
+
+def broadcast(value, inputNeuron, outputNeuron):
+    say("Broadcasting " + str(value))
+    inputNeuron.broadcast(value)
+    return outputNeuron.getValue() 
+
+# debugging
 layers = []
+networkTalk = False
+# networkTalk = True
 
-print "Creating Layers"
-print "----------------------------------------------------------"
-layers.append(Layer("Int Layer"))
-layers.append(Layer("Hid Layer"))
-layers.append(Layer("Out Layer"))
-print "----------------------------------------------------------"
-print "Done creating layers! \n"
+# Network constants
+learnConst = 0.010
+momentum = 1.0
 
-print "Creating Nodes"
-print "----------------------------------------------------------"
-input = Neuron(linear, "Inp neuron")
-hiden1= Neuron(nonLinear, "Hid neuron1")
-# hiden2= Neuron(nonLinear, "Hid neuron2")
-output = Neuron(linear, "Out neuron")
-print "----------------------------------------------------------"
-print "Done creating! \n"
 
-print "Adding nodes to layers"
-print "----------------------------------------------------------"
-layers[0].addNeuron(input)
-layers[1].addNeuron(hiden1)
-# layers[1].addNeuron(hiden2)
-layers[2].addNeuron(output)
-print "----------------------------------------------------------"
-print "Done adding! \n"
+inputLayer, outputLayer= createNetwork(learnConst, momentum)
 
-print "Adding connections between layers"
-print "----------------------------------------------------------"
-addConnection(layers[0], layers[1])
-addConnection(layers[1], layers[2])
-print "----------------------------------------------------------"
-print "Done building! \n"
+print "Training!"
 
-print "Sending!"
-input.broadcast(1.0)
-output.getValue()
+training = fromFile("sincTrain25.dt")
+for i in range(len(training)):
+    (input, targetOut) = training[i]
+    inputLayer.getNeurons()[0].setValue(input)
+    error = 0
+    j = 0
+    for j in range(10):
+    # for _ in range(1000):
+        inputLayer.calculate()
+        error = meanSquareError(outputLayer.getNeurons()[0].getValue(), targetOut)
+        # print "\n\n"
+        # print "Doing backpropagation!"
+        # print "Finding errors!"
+        outputLayer.backpropogate([error])
+        # print "In -> " + str(input)
+        # print "Out -> " + str(outputLayer.getNeurons()[0].getValue())# + " target was: " + str(targetOut)
+        # print "Training set " + str(i) + ". Run " + str(j) + ": Error was " + str(error)
+        j += 1
+        # sleep(1)
+    # errors.append(error)
+    # actualOut = broadcast(input, inputNeuron, outputNeuron)
+    # error = meanSquareError(targetOut, actualOut)  
+
+print "Training done!"
+print "Printing weights: "
+print inputLayer.getWeights([])
+print "Mathword mathword partial derivative numerically estimated mathword mathword"
+
+
+print "Testing!"
+
+test = fromFile("sincValidate10.dt")
+
+errors = []
+for i in range(len(test)):
+    (input, targetOut) = test[i]
+    inputLayer.calculate()
+    error = meanSquareError(outputLayer.getNeurons()[0].getValue(), targetOut)
+    errors.append(error)
+
+print "Average error is: " + str(sum(errors)/len(errors))
