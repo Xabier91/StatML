@@ -88,10 +88,8 @@ therefore,\\
     \sum_{h_i \in H}& P(1|h_i)P(h_i|C) = 0.75\\
     \sum_{h_i \in H}& P(0|h_i)P(h_i|C) = 0.25
 \end{align*}
-and the optimal risk is then\\
-\begin{equation*}
-    argmax_{c_{j}\in {0,1}} \sum_{h_i \in H} P(c_j | h_i) P(h_i|D) = 1
-\end{equation*}
+So the Bayes Optimal Risk is then $25 \%$.\\
+
 To calculate the risk of the probalistic classifier you have to
 calculate the chance of the predicted result being incorrect. In this
 case with two possible outputs, it is simply frequency of '0' times the
