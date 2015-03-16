@@ -1,0 +1,175 @@
+
+#!/usr/bin/env python
+_author__ = 'Xabier'
+
+
+import numpy as np
+#from scipy import optimize
+import matplotlib.pylab as plt
+
+iterations= int(raw_input("Insert iteration number:"))
+steps= float(raw_input("Insert learning rate:"))
+
+
+
+X1 = np.array(([-4.5316], [6.69138], [6.01159], [-1.51829], [0.381849], [-3.69688], [-8.963], [-7.96203], [-6.43014], [-8.58233]), dtype=float)
+
+X = np.array(([-4.5316], [6.69138], [6.01159], [-1.51829], [0.381849], [-3.69688], [-8.963], [-7.96203], [-6.43014], [-8.58233]), dtype=float)
+#X1 = np.array(([-8], [-6], [-4], [-2], [0], [2], [4], [6], [8], [10]), dtype=float)
+
+#X = np.array(([-8], [-6], [-4], [-2], [0], [2], [4], [6], [8], [10]), dtype=float)
+list=[]
+for i in range(-100,100, 1):
+    list.append([i / 10.0])
+
+#X2 = np.array(([-4.5316], [6.69138], [6.01159], [-1.51829], [0.381849], [-3.69688], [-8.963], [-7.96203], [-6.43014], [-8.58233]), dtype=float)
+
+z= np.array((list), dtype=float)
+z1= np.array((list), dtype=float)
+
+
+y = np.array(([-0.228174], [0.128751], [-0.0582842], [0.672034], [0.968582], [-0.167464], [0.00629585], [0.163437], [0.0195345], [0.0561658]), dtype=float)
+
+b= np.array(np.ones((len(X),1))) # Include the bias term in the input
+c= np.array(np.ones((len(z),1))) # Include the bias term in the input
+
+X=np.append(X,b, axis=1)
+z=np.append(z,c, axis=1)
+
+class Neural_Network(object):
+    def __init__(self,k):
+        #Define Hyperparameters
+        self.k=k
+        self.layer= [2,k,1]
+
+
+        #Weights (parameters)
+        self.W1 = np.random.randn(self.layer[0],self.layer[1])
+        self.W2 = np.random.randn(self.layer[1]+1,self.layer[2])
+
+    def update(self,listW1,listW2):
+        self.W1=listW1
+        self.W2=listW2
+
+
+    def actFun(self, a):
+        #Apply sigmoid activation function to scalar, vector, or matrix
+        return a/(1.0+abs(a))
+
+    def forward(self, X):
+        #Propogate inputs though network
+        a= np.array(np.ones((len(X),1)))    # Include the bias term in the hidden layer
+        self.z2 = np.dot(X, self.W1)
+        self.z2= np.append(self.z2,a, axis=1)
+        self.a2 = self.actFun(self.z2)
+        self.z3 = np.dot(self.a2, self.W2)
+        yHat = self.z3
+
+        return yHat
+
+    def actFunPrime(self,a):
+        return 1/((1.0+abs(a))**2)
+
+    def costFun(self, X, y):
+        #Compute cost for given X,y, use weights already stored in class.
+        self.yHat = self.forward(X)
+        J = 0.1*(sum((y-self.yHat)**2))
+        return J
+
+    def costFunPrime(self, X, y):
+        #Compute derivative with respect to W and W2 for a given X and y:
+        self.yHat = self.forward(X)
+
+        delta3 = -(y-self.yHat)
+        dJdW2 = np.dot(self.a2.T, delta3)
+
+        delta2 = np.dot(delta3, self.W2.T)*self.actFunPrime(self.z2)
+        dJdW1 = np.dot(X.T, delta2)
+
+        return dJdW1, dJdW2
+
+
+    #Helper Functions for interacting with other classes:
+    def getParams(self):
+        #Get W1 and W2 unrolled into vector:
+        params = np.concatenate((self.W1.ravel(), self.W2.ravel()))
+        return params
+
+    def setParams(self, params):
+        #Set W1 and W2 using single paramater vector.
+        W1_start = 0
+        W1_end = self.layer[1] * self.layer[0]
+        self.W1 = np.reshape(params[W1_start:W1_end], (self.layer[0] , self.layer[1]))
+        W2_end = W1_end + self.layer[1]+1*self.layer[2]
+        self.W2 = np.reshape(params[W1_end:W2_end], (self.layer[1]+1, self.layer[2]))
+        return self.W1, self.W2
+
+    def computeGradients(self, X, y):  # Same as cosFunctionPrime
+        dJdW1, dJdW2 = self.costFunPrime(X, y)
+        return dJdW1, dJdW2
+        #return np.concatenate((dJdW1.ravel(), dJdW2.ravel()))
+
+
+    def gradient_des(self):
+        #Learning rate
+        nu=steps
+        deltaW1,deltaW2=self.computeGradients(X,y)
+        self.newW1=np.array(np.zeros((self.layer[0],self.layer[1])))
+        self.newW2=np.array(np.zeros((self.layer[1]+1,self.layer[2])))
+        for i in range(0,len(self.W1)):
+            for j in range(0,len(self.W1[i])):
+                increase=-nu*deltaW1[i][j]
+                self.newW1[i][j]=self.W1[i][j]+(increase)
+        for i in range(0,len(self.W2)):
+            for j in range(0,len(self.W2[i])):
+                increase=-nu*deltaW2[i][j]
+                self.newW2[i][j]=self.W2[i][j]+(increase)
+
+        return self.newW1,self.newW2
+
+    def training(self,iter):
+        list = []
+        for i in range(0,iter):
+            print self.costFun(X, y),"Hidden layers:",self.k,"/&&/",iter-i,"iterations remaining from",iter,"/", "learning rate:", steps
+            list.append(self.costFun(X, y))
+            ar1,ar2=self.gradient_des()
+            self.update(ar1,ar2)
+        return list
+
+
+NN = Neural_Network(20)
+NN2 = Neural_Network(2)
+
+plt.plot(range(0,iterations,1),NN.training(iterations), color="blue",label=r'$20$ $Hidden$ $layers$')
+plt.plot(range(0,iterations,1),NN2.training(iterations), color="red",label=r'$2$ $Hidden$ $layers$')
+plt.xlim(-5,iterations)
+plt.ylim(-0.75,7)
+plt.xlabel(r'$Function$ $error$ ',fontsize=18 )
+plt.ylabel(r'$Iterations$', fontsize=18)
+plt.legend(loc='upper right')
+plt.suptitle(r'$Error$', fontsize=20)
+
+plt.figure()
+x = np.linspace(-10, 10, 41)
+plt.plot(x,np.sinc(x),color="orange", label=r'$2sinc(x)=$ $sin(x)/x$')
+NN.forward(z)
+plt.scatter(z1,NN.forward(z),color="blue",label=r'$20$ $Hidden$ $layers$')
+NN2.forward(z)
+plt.scatter(z1,NN2.forward(z),color="red",label=r'$2$ $Hidden$ $layers$')
+plt.xlabel(r'$-10,10$ $Interval$ ',fontsize=18 )
+plt.ylabel(r'$y$', fontsize=18)
+plt.legend(loc='upper right')
+plt.suptitle(r'$Output$ $Of$ $the$ $interval$',fontsize=20)
+
+plt.figure()
+plt.scatter(X1,y, color="black",label=r"$Real$ $data$")
+plt.scatter(X1,NN.forward(X), color="blue",label=r'$20$ $Hidden$ $layers$')
+plt.scatter(X1,NN2.forward(X), color="red",label=r'$2$ $Hidden$ $layers$')
+plt.xlabel(r'$x$ ',fontsize=18 )
+plt.ylabel(r'$y$', fontsize=18)
+plt.legend(loc='upper right')
+plt.suptitle(r'$Predictions$',fontsize=20)
+
+plt.show()
+
+
